@@ -1,0 +1,13 @@
+*node_modules*
+*.cache*
+*dist*
+*.idea*
+*.DS_Store*
+package-lock.json
+
+backend/secrets
+backend/node_modules
+backend/package-lock.json
+
+frontend/package-lock.json
+frontend/node_modules

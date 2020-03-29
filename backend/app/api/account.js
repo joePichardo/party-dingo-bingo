@@ -10,6 +10,30 @@ const router = new Router();
 
 router.post('/signup', (req, res, next) => {
   const { username, password } = req.body;
+
+  var minNumberofChars = 8;
+  var maxNumberofChars = 16;
+  console.log(password);
+  var regularExpression = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
+
+  // (?=.*\d)           // should contain at least one digit
+  // (?=.*[!@#$%^&*])   // should contain at least one special character
+  // (?=.*[a-z])        // should contain at least one lower case
+  // (?=.*[A-Z])        // should contain at least one upper case
+  // .{8,16}  // should contain at least 8-16 from the mentioned characters
+
+  if(password.length < minNumberofChars || password.length > maxNumberofChars){
+    const error = new Error('Password must have 8-16 characters');
+    error.statusCode = 409;
+    throw error;
+  }
+
+  if(!regularExpression.test(password)) {
+    const error = new Error('Password should contain at least one digit, one lowercase character, one uppercase character, and one special character (!@#$%^&*)');
+    error.statusCode = 409;
+    throw error;
+  }
+
   const usernameHash = hash(username);
   const passwordHash = hash(password);
 

@@ -13,22 +13,40 @@ router.post('/signup', (req, res, next) => {
 
   var minNumberofChars = 8;
   var maxNumberofChars = 16;
-  console.log(password);
-  var regularExpression = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
 
+  var regularExpressionUsername = /^(?=.{4,16}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/;
+  // (?=.{4,16}$)    // username is 4-16 characters long
+  // (?![_.])        // no _ or . at the beginning
+  // (?!.*[_.]{2})   // no __ or _. or ._ or .. inside
+  // [a-zA-Z0-9._]   // allowed characters
+  // (?<![_.])       // no _ or . at the end
+
+  if(username.length <= 4 || username.length >= maxNumberofChars){
+    const error = new Error('Username must have 4-16 characters');
+    error.statusCode = 409;
+    throw error;
+  }
+
+  if(!regularExpressionUsername.test(username)) {
+    const error = new Error('Username should not contain _ or . at the beginning or end. No __ or _. or ._ or .. characters. Allowed characters include period, underscore, digits, lowercase and uppercase characters. ');
+    error.statusCode = 409;
+    throw error;
+  }
+
+  var regularExpressionPassword = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
   // (?=.*\d)           // should contain at least one digit
   // (?=.*[!@#$%^&*])   // should contain at least one special character
   // (?=.*[a-z])        // should contain at least one lower case
   // (?=.*[A-Z])        // should contain at least one upper case
   // .{8,16}  // should contain at least 8-16 from the mentioned characters
 
-  if(password.length < minNumberofChars || password.length > maxNumberofChars){
+  if(password.length <= minNumberofChars || password.length >= maxNumberofChars){
     const error = new Error('Password must have 8-16 characters');
     error.statusCode = 409;
     throw error;
   }
 
-  if(!regularExpression.test(password)) {
+  if(!regularExpressionPassword.test(password)) {
     const error = new Error('Password should contain at least one digit, one lowercase character, one uppercase character, and one special character (!@#$%^&*)');
     error.statusCode = 409;
     throw error;

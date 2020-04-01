@@ -13,6 +13,10 @@ psql -U node_user dragonstackdb < ./bin/sql/dragon.sql
 psql -U node_user dragonstackdb < ./bin/sql/trait.sql
 psql -U node_user dragonstackdb < ./bin/sql/dragonTrait.sql
 psql -U node_user dragonstackdb < ./bin/sql/accountDragon.sql
+psql -U node_user dragonstackdb < ./bin/sql/game.sql
+psql -U node_user dragonstackdb < ./bin/sql/gameValue.sql
+psql -U node_user dragonstackdb < ./bin/sql/gameMember.sql
+psql -U node_user dragonstackdb < ./bin/sql/gameMemberData.sql
 
 node ./bin/insertTraits.js
 

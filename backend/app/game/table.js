@@ -51,7 +51,7 @@ class GameTable {
       if (settingValue !== undefined) {
         return new Promise((resolve, reject) => {
           pool.query(
-            `UPDATE dragon SET "${settingKey}" = $1 WHERE id = $2`,
+            `UPDATE game SET "${settingKey}" = $1 WHERE id = $2`,
             [settingValue, gameId],
             (error, response) => {
               if (error) {

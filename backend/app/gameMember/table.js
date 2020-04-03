@@ -1,7 +1,7 @@
 const pool = require('../../databasePool');
 
 class GameMemberTable {
-  static storeGameMember({ accountId, gameId }) {
+  static storeGameMember({ gameId, accountId }) {
     return new Promise((resolve, reject) => {
       pool.query(
         'INSERT INTO gameMember("gameId", "accountId") VALUES($1, $2)',

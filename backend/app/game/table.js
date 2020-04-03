@@ -42,6 +42,28 @@ class GameTable {
     });
   }
 
+  static getOwnerGames({ ownerId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `SELECT id, birthdate, nickname, "isPublic", "buyValue"
+        FROM game
+        WHERE "ownderId" = $1`,
+        [gameId],
+        (error, response) => {
+          if (error) {
+            return reject(error);
+          }
+
+          if (response.rows.length === 0) {
+            return reject(new Error('no game'));
+          }
+
+          resolve(response.rows[0]);
+        }
+      )
+    });
+  }
+
   static updateGame({ gameId, nickname, isPublic, buyValue, ownerId }) {
     const settingsMap = { nickname, isPublic, buyValue, ownerId };
 

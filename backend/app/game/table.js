@@ -89,6 +89,22 @@ class GameTable {
 
     return Promise.all(validQueries);
   }
+
+  static updatePotValue({ gameId, value }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        'UPDATE game SET "potValue" = "potValue" + $1 WHERE id = $2',
+        [value, gameId],
+        (error, response) => {
+          if (error) {
+            return reject(error);
+          }
+
+          resolve();
+        }
+      )
+    });
+  }
 }
 
 module.exports = GameTable;

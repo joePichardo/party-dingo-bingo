@@ -17,6 +17,22 @@ class GameMemberTable {
     })
   }
 
+  static getGameMember({ gameId, accountId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        'SELECT "accountId" FROM gameMember WHERE "gameId" = $1 AND "accountId" = $2',
+        [gameId, accountId],
+        (error, response) => {
+          if (error) {
+            return reject(error);
+          }
+
+          resolve({ accountId: response.rows[0].accountId });
+        }
+      )
+    })
+  }
+
   static getGameMembers({ gameId }) {
     return new Promise((resolve, reject) => {
       pool.query(

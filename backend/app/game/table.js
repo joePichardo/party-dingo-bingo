@@ -48,7 +48,7 @@ class GameTable {
         `SELECT id, birthdate, nickname, "isPublic", "buyValue"
         FROM game
         WHERE "ownderId" = $1`,
-        [gameId],
+        [ownerId],
         (error, response) => {
           if (error) {
             return reject(error);

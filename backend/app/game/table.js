@@ -2,13 +2,13 @@ const pool = require('../../databasePool');
 
 class GameTable {
   static storeGame(game) {
-    const { birthdate, nickname, isPublic, buyValue, ownerId } = game;
+    const { birthdate, nickname, isPublic, buyValue, potValue, ownerId } = game;
 
     return new Promise((resolve, reject) => {
       pool.query(
-        `INSERT INTO game(birthdate, nickname, "isPublic", "buyValue", "ownerId") 
+        `INSERT INTO game(birthdate, nickname, "isPublic", "buyValue", "potValue", "ownerId") 
         VALUES($1, $2, $3, $4, $5, $6) RETURNING id`,
-        [birthdate, nickname, isPublic, buyValue, ownerId],
+        [birthdate, nickname, isPublic, buyValue, potValue, ownerId],
         (error, response) => {
           if (error) {
             return reject(error);
@@ -23,7 +23,7 @@ class GameTable {
   static getGame({ gameId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `SELECT birthdate, nickname, "isPublic", "buyValue", "ownerId"
+        `SELECT birthdate, nickname, "isPublic", "buyValue", "potValue", "ownerId"
         FROM game
         WHERE game.id = $1`,
         [gameId],
@@ -45,7 +45,7 @@ class GameTable {
   static getOwnerGames({ ownerId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `SELECT id, birthdate, nickname, "isPublic", "buyValue"
+        `SELECT id, birthdate, nickname, "isPublic", "buyValue", "potValue"
         FROM game
         WHERE "ownderId" = $1`,
         [ownerId],
@@ -64,8 +64,8 @@ class GameTable {
     });
   }
 
-  static updateGame({ gameId, nickname, isPublic, buyValue, ownerId }) {
-    const settingsMap = { nickname, isPublic, buyValue, ownerId };
+  static updateGame({ gameId, nickname, isPublic, buyValue, potValue, ownerId }) {
+    const settingsMap = { nickname, isPublic, buyValue, potValue, ownerId };
 
     const validQueries = Object.entries(settingsMap).filter(([settingKey, settingValue]) => {
       // console.log('settingKey', settingKey, 'settingValue', settingValue);

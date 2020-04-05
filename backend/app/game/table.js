@@ -23,7 +23,7 @@ class GameTable {
   static getGame({ gameId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `SELECT birthdate, nickname, "isPublic", "buyValue", "potValue", "ownerId"
+        `SELECT id, birthdate, nickname, "isPublic", "buyValue", "potValue", "ownerId"
         FROM game
         WHERE game.id = $1`,
         [gameId],

@@ -16,7 +16,7 @@ class PublicGames extends Component {
         {
           this.props.publicGames.games.map(game => {
             return (
-              <div key={game.gameId}>
+              <div key={game.id}>
                 <PublicGameRow game={game} />
                 <hr />
               </div>

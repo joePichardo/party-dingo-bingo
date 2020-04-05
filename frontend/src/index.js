@@ -9,10 +9,12 @@ import rootReducer from "./reducers";
 import Root from "./components/Root";
 import AccountDragons from "./components/AccountDragons";
 import PublicDragons from "./components/PublicDragons";
+import PublicGames from "./components/PublicGames";
 import { fetchAuthenticated } from "./actions/account";
 import './index.css';
 
 import { fetchPublicDragons } from "./actions/publicDragons";
+import { fetchPublicGames } from "./actions/publicGames";
 
 
 
@@ -24,6 +26,7 @@ const store = createStore(
 );
 
 store.dispatch(fetchPublicDragons());
+store.dispatch(fetchPublicGames());
 
 const AuthRoute = props => {
   if (!store.getState().account.loggedIn) {
@@ -44,6 +47,7 @@ store.dispatch(fetchAuthenticated())
             <Route exact path='/' component={Root} />
             <AuthRoute path='/account-dragons' component={AccountDragons} />
             <AuthRoute path='/public-dragons' component={PublicDragons} />
+            <AuthRoute path='/public-games' component={PublicGames} />
           </Switch>
         </Router>
       </Provider>,

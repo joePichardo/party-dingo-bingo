@@ -8,13 +8,13 @@ class PublicGameRow extends Component {
   state = { };
 
   buy = () => {
-    const { gameId, buyValue } = this.props.game;
+    const { id, buyValue } = this.props.game;
 
     fetch(`${BACKEND.ADDRESS}/game/buy`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ gameId, buyValue })
+      body: JSON.stringify({ gameId: id, buyValue })
     }).then(response => response.json())
       .then(json => {
         alert(json.message);
@@ -32,6 +32,10 @@ class PublicGameRow extends Component {
         <div>{this.props.game.nickname}</div>
         <div>
           <span>Sale Value: {this.props.game.buyValue}</span>
+          <br />
+          <span>Pot Value: {this.props.game.potValue}</span>
+          <br />
+          <span>Game Owner: {this.props.game.ownerId}</span>
         </div>
         <br />
         <Button onClick={this.buy}>Buy</Button>{' '}

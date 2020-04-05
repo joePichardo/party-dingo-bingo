@@ -27,7 +27,12 @@ class GameMemberTable {
             return reject(error);
           }
 
-          resolve({ accountId: response.rows[0].accountId });
+          if (response.rows.length > 0) {
+            resolve({ accountId: response.rows[0].accountId });
+          } else {
+            resolve({ accountId: undefined });
+          }
+
         }
       )
     })

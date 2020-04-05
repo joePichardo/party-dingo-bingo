@@ -6,6 +6,7 @@ const GenerationEngine = require('./generation/engine');
 const dragonRouter = require('./api/dragon');
 const generationRouter = require('./api/generation');
 const accountRouter = require('./api/account');
+const gameRouter = require('./api/game');
 
 const app = express();
 const engine = new GenerationEngine();
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use('/account', accountRouter);
 app.use('/dragon', dragonRouter);
 app.use('/generation', generationRouter);
+app.use('/game', gameRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

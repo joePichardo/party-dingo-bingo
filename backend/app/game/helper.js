@@ -25,4 +25,4 @@ const getPublicGames = () => {
   });
 };
 
-module.exports = { getOwnerGames, getPublicGames };
+module.exports = { getPublicGames };

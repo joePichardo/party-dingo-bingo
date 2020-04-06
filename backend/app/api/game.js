@@ -25,9 +25,26 @@ router.get('/new', (req, res, next) => {
 });
 
 router.put('/update', (req, res, next) => {
-  const { gameId, nickname, isPublic, buyValue, ownerId } = req.body;
+  let accountId;
 
-  GameTable.updateGame({ gameId, nickname, isPublic, buyValue, ownerId })
+  authenticatedAccount({ sessionString: req.cookies.sessionString })
+    .then(({ account }) => {
+      accountId = account.id;
+
+      const { gameId } = req.body;
+
+      return GameTable.getGame({ gameId });
+    })
+    .then(game => {
+
+      if (accountId !== game.ownerId) {
+        throw new Error("You don't own this game.");
+      }
+
+      const { gameId, nickname, isPublic, buyValue } = req.body;
+
+      return GameTable.updateGame({ gameId, nickname, isPublic, buyValue });
+    })
     .then(() => res.json({ message: 'successfully updated game' }))
     .catch(error => next(error));
 });

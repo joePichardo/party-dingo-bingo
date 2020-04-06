@@ -5,7 +5,19 @@ import history from "../history";
 
 class PublicGameRow extends Component {
 
-  state = { };
+  state = { ownerName: "" };
+
+  componentDidMount() {
+    fetch(`${BACKEND.ADDRESS}/game/owner/${this.props.game.ownerId}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' }
+    }).then(response => response.json())
+      .then(({ username }) => {
+        this.setState({ ownerName: username });
+      })
+      .catch(error => alert(error.message));
+  }
 
   buy = () => {
     const { id, buyValue } = this.props.game;
@@ -35,7 +47,7 @@ class PublicGameRow extends Component {
           <br />
           <span>Pot Value: {this.props.game.potValue}</span>
           <br />
-          <span>Game Owner: {this.props.game.ownerId}</span>
+          <span>Game Owner: {this.state.ownerName}</span>
         </div>
         <br />
         <Button onClick={this.buy}>Buy</Button>{' '}

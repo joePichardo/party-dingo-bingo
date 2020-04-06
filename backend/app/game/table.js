@@ -42,6 +42,28 @@ class GameTable {
     });
   }
 
+  static getGameOwner({ ownerId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `SELECT username
+        FROM account
+        WHERE account.id = $1`,
+        [ownerId],
+        (error, response) => {
+          if (error) {
+            return reject(error);
+          }
+
+          if (response.rows.length === 0) {
+            return reject(new Error('no account found'));
+          }
+
+          resolve(response.rows[0]);
+        }
+      )
+    });
+  }
+
   static getOwnerGames({ ownerId }) {
     return new Promise((resolve, reject) => {
       pool.query(

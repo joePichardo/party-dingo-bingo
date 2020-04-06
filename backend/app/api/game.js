@@ -55,6 +55,14 @@ router.get('/public-games', (req, res, next) => {
     .catch(error => next(error));
 });
 
+router.get('/owner/:id', (req, res, next) => {
+  const ownerId = req.params.id;
+
+  GameTable.getGameOwner({ ownerId })
+    .then(({ username }) => res.json({ username }))
+    .catch(error => next(error));
+});
+
 router.post('/buy', (req, res, next) => {
   const { gameId, buyValue } = req.body;
   let buyerId;

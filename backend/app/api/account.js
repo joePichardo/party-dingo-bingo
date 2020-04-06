@@ -58,7 +58,7 @@ router.post('/signup', (req, res, next) => {
   AccountTable.getAccount({ usernameHash })
     .then(({ account }) => {
       if (!account) {
-        return AccountTable.storeAccount({ usernameHash, passwordHash });
+        return AccountTable.storeAccount({ username, usernameHash, passwordHash });
       } else {
         const error = new Error('This username has already been taken');
 

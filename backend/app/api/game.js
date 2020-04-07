@@ -63,6 +63,14 @@ router.get('/:id/owner', (req, res, next) => {
     .catch(error => next(error));
 });
 
+router.get('/:id/members', (req, res, next) => {
+  const gameId = req.params.id;
+
+  GameMemberTable.getGameMembers({ gameId })
+    .then(({ gameMembers }) => res.json({ gameMembers }))
+    .catch(error => next(error));
+});
+
 router.post('/buy', (req, res, next) => {
   const { gameId, buyValue } = req.body;
   let buyerId;

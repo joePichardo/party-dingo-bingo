@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { BACKEND } from "../config";
 import history from "../history";
+import {Link} from "react-router-dom";
 
 class PublicGameRow extends Component {
 
@@ -42,6 +43,9 @@ class PublicGameRow extends Component {
     return (
       <div>
         <div>{this.props.game.nickname}</div>
+        <br />
+        <Link to={ `/public-games/${this.props.game.id}` }>Overview</Link>
+        <br />
         <div>
           <span>Sale Value: {this.props.game.buyValue}</span>
           <br />

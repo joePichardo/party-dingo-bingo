@@ -10,6 +10,7 @@ import Root from "./components/Root";
 import AccountDragons from "./components/AccountDragons";
 import PublicDragons from "./components/PublicDragons";
 import PublicGames from "./components/PublicGames";
+import PublicGameView from "./components/PublicGameView";
 import { fetchAuthenticated } from "./actions/account";
 import './index.css';
 
@@ -47,7 +48,8 @@ store.dispatch(fetchAuthenticated())
             <Route exact path='/' component={Root} />
             <AuthRoute path='/account-dragons' component={AccountDragons} />
             <AuthRoute path='/public-dragons' component={PublicDragons} />
-            <AuthRoute path='/public-games' component={PublicGames} />
+            <AuthRoute exact path='/public-games' component={PublicGames} />
+            <AuthRoute exact path='/public-games/:id' component={PublicGameView} />
           </Switch>
         </Router>
       </Provider>,

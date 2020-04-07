@@ -41,7 +41,11 @@ class GameMemberTable {
   static getGameMembers({ gameId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        'SELECT "accountId" FROM gameMember WHERE "gameId" = $1',
+        `SELECT ac.id, ac.username
+        FROM gameMember AS gm 
+        INNER JOIN account AS ac 
+        ON gm."accountId"  = ac.id
+        WHERE gm."gameId" = $1`,
         [gameId],
         (error, response) => {
           if (error) {

@@ -55,7 +55,7 @@ router.get('/public-games', (req, res, next) => {
     .catch(error => next(error));
 });
 
-router.get('/owner/:id', (req, res, next) => {
+router.get('/:id/owner', (req, res, next) => {
   const ownerId = req.params.id;
 
   GameTable.getGameOwner({ ownerId })

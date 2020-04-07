@@ -8,7 +8,7 @@ class PublicGameRow extends Component {
   state = { ownerName: "" };
 
   componentDidMount() {
-    fetch(`${BACKEND.ADDRESS}/game/owner/${this.props.game.ownerId}`, {
+    fetch(`${BACKEND.ADDRESS}/game/${this.props.game.ownerId}/owner`, {
       method: 'GET',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' }

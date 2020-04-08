@@ -29,7 +29,7 @@ class PublicGameView extends Component {
           this.state.gameMembers.map(member => {
             return (
               <div key={member.id}>
-                <div>{member.username}</div>
+                <PublicGameMemberRow member={member} />
               </div>
             )
           })

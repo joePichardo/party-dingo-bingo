@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PublicGameMemberRow from "./PublicGameMemberRow";
 import {BACKEND} from "../config";
+import {Button} from "react-bootstrap";
 
 class PublicGameView extends Component {
 
   state = { gameMembers: [] };
+
+  constructor(props){
+    super(props);
+    this.goBack = this.goBack.bind(this); // i think you are missing this
+  }
+
+  goBack(){
+    this.props.history.goBack();
+  }
 
   componentDidMount() {
     fetch(`${BACKEND.ADDRESS}/game/${this.props.match.params.id}/members`, {
@@ -24,7 +33,7 @@ class PublicGameView extends Component {
   render() {
     return(
       <div>
-        <Link to="/">Home</Link>
+        <Button onClick={this.goBack}>Go Back</Button>
         {
           this.state.gameMembers.map(member => {
             return (

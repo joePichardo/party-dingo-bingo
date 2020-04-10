@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchPublicGames } from "../actions/publicGames";
 import { Link } from 'react-router-dom';
 import PublicGameRow from "./PublicGameRow";
+import Game from "./Game";
 
 class PublicGames extends Component {
   componentDidMount() {
@@ -12,6 +13,8 @@ class PublicGames extends Component {
   render() {
     return(
       <div>
+        <Game />
+        <br />
         <h3>Public Games</h3>
         {
           this.props.publicGames.games.map(game => {

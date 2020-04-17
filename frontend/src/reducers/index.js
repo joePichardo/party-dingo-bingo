@@ -1,6 +1,7 @@
 import { combineReducers} from "redux";
 import account from "./account";
 import accountDragons from "./accountDragons";
+import accountGames from "./accountGames";
 import accountInfo from "./accountInfo";
 import dragon from "./dragon";
 import generation from "./generation";
@@ -11,6 +12,7 @@ import publicGames from "./publicGames";
 export default combineReducers({
   account,
   accountDragons,
+  accountGames,
   accountInfo,
   dragon,
   generation,

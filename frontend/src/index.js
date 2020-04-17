@@ -8,6 +8,7 @@ import history from "./history";
 import rootReducer from "./reducers";
 import Root from "./components/Root";
 import AccountDragons from "./components/AccountDragons";
+import AccountGames from "./components/AccountGames";
 import PublicDragons from "./components/PublicDragons";
 import PublicGames from "./components/PublicGames";
 import PublicGameView from "./components/PublicGameView";
@@ -47,6 +48,7 @@ store.dispatch(fetchAuthenticated())
           <Switch>
             <Route exact path='/' component={Root} />
             <AuthRoute path='/account-dragons' component={AccountDragons} />
+            <AuthRoute path='/account-games' component={AccountGames} />
             <AuthRoute path='/public-dragons' component={PublicDragons} />
             <AuthRoute exact path='/public-games' component={PublicGames} />
             <AuthRoute exact path='/public-games/:id' component={PublicGameView} />

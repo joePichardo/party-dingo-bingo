@@ -18,11 +18,8 @@ class Home extends Component {
           <hr />
           <AccountInfo />
           <hr />
-          <Link to='/account-dragons'>Account Dragons</Link>
           <br />
           <Link to='/account-games'>Account Games</Link>
-          <br />
-          <Link to='/public-dragons'>Public Dragons</Link>
           <br />
           <Link to='/public-games'>Public Games</Link>
         </div>

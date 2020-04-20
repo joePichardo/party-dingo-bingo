@@ -31,6 +31,7 @@ class AccountGameRow extends Component {
     fetch(`${BACKEND.ADDRESS}/game/update`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({
         gameId: this.props.game.id,
         nickname: this.state.nickname,

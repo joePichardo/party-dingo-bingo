@@ -61,35 +61,36 @@ class AccountGameRow extends Component {
   render() {
     return (
       <div>
-        <input
-          type='text'
-          value={this.state.nickname}
-          onChange={this.updateNickname}
-          disabled={!this.state.edit}
-        />
-        <br />
         <div>
-          <span>
-            Sale Value: { ' ' }
-            <input
-              type="number"
-              disabled={!this.state.edit}
-              value={this.state.buyValue}
-              onChange={this.updateBuyValue}
-              className="account-dragon-row-input"
-            />
-          </span>
-          { ' ' }
-          <span>
-            Public: { ' ' }
-            <input
-              type="checkbox"
-              disabled={!this.state.edit}
-              checked={this.state.isPublic}
-              onChange={this.updateIsPublic}
-              className="account-dragon-row-input"
-            />
-          </span>
+          Name: { ' ' }
+          <input
+            type='text'
+            value={this.state.nickname}
+            onChange={this.updateNickname}
+            disabled={!this.state.edit}
+          />
+        </div>
+        <div>
+          Sale Value: { ' ' }
+          <input
+            type="number"
+            disabled={!this.state.edit}
+            value={this.state.buyValue}
+            onChange={this.updateBuyValue}
+            className="account-dragon-row-input"
+          />
+        </div>
+        <div>
+          Public: { ' ' }
+          <input
+            type="checkbox"
+            disabled={!this.state.edit}
+            checked={this.state.isPublic}
+            onChange={this.updateIsPublic}
+            className="account-dragon-row-input"
+          />
+        </div>
+        <div>
           {
             this.state.edit ? this.SaveButton : this.EditButton
           }

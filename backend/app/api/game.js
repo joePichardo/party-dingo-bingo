@@ -2,6 +2,7 @@ const { Router } = require('express');
 const Game = require('../game/index');
 const GameTable = require('../game/table');
 const GameMemberTable = require('../gameMember/table');
+const GameValueTable = require('../gameValue/table');
 const AccountTable = require('../account/table');
 const { authenticatedAccount } = require('./helper');
 const { getPublicGames } = require('../game/helper');
@@ -68,6 +69,50 @@ router.get('/:id/members', (req, res, next) => {
 
   GameMemberTable.getGameMembers({ gameId })
     .then(({ gameMembers }) => res.json({ gameMembers }))
+    .catch(error => next(error));
+});
+
+router.get('/:id/values', (req, res, next) => {
+  const gameId = req.params.id;
+
+  GameValueTable.getGameValues({ gameId })
+    .then(({ gameValues }) => res.json({ gameValues }))
+    .catch(error => next(error));
+});
+
+router.post('/:id/values/add', (req, res, next) => {
+  let accountId;
+
+  authenticatedAccount({ sessionString: req.cookies.sessionString })
+    .then(({ account }) => {
+      accountId = account.id;
+
+      const { gameId } = req.body;
+
+      return GameTable.getGame({ gameId });
+    })
+    .then(game => {
+
+      if (accountId !== game.ownerId) {
+        throw new Error("You don't own this game.");
+      }
+
+      const { gameId, itemId } = req.body;
+
+      return GameValueTable.getGameValue({ gameId, itemId });
+    })
+    .then(gameValue => {
+
+      const { gameId, itemId, textValue } = req.body;
+
+      if (gameValue === undefined) {
+        return GameValueTable.storeGameValue({ gameId, itemId, textValue });
+      } else {
+        return GameValueTable.updateGameValue({ gameId, itemId, textValue });
+      }
+
+    })
+    .then(() => res.json({ message: 'successfully added value to game' }))
     .catch(error => next(error));
 });
 

@@ -14,6 +14,24 @@ class GameValueTable {
             return reject(error);
           }
 
+          resolve();
+        }
+      )
+    });
+  }
+
+  static getGameValue({ gameId, itemId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `SELECT "textValue"
+        FROM gameValue
+        WHERE "gameId" = $1 AND "itemId" = $2`,
+        [gameId, itemId],
+        (error, response) => {
+          if (error) {
+            return reject(error);
+          }
+
           resolve(response.rows[0]);
         }
       )

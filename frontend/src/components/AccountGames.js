@@ -12,8 +12,11 @@ class AccountGames extends Component {
   render() {
     return (
       <div>
-        <h3>Account Games</h3>
         <Link to='/'>Home</Link>
+        <br />
+        <br />
+        <h3>Account Games</h3>
+        <hr />
         {
           this.props.accountGames.games.map(game => {
             return (

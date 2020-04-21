@@ -13,9 +13,13 @@ class PublicGames extends Component {
   render() {
     return(
       <div>
+        <Link to="/">Home</Link>
+        <br />
+        <br />
         <Game />
         <br />
         <h3>Public Games</h3>
+        <hr />
         {
           this.props.publicGames.games.map(game => {
             return (
@@ -26,7 +30,6 @@ class PublicGames extends Component {
             )
           })
         }
-        <Link to="/">Home</Link>
       </div>
     )
   }

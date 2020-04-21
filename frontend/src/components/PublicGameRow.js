@@ -47,9 +47,9 @@ class PublicGameRow extends Component {
         <Link to={ `/public-games/${this.props.game.id}` }>Overview</Link>
         <br />
         <div>
-          <span>Sale Value: {this.props.game.buyValue}</span>
+          <span>Buy-in: {this.props.game.buyValue}</span>
           <br />
-          <span>Pot Value: {this.props.game.potValue}</span>
+          <span>Pot: {this.props.game.potValue}</span>
           <br />
           <span>Game Owner: {this.state.ownerName}</span>
         </div>

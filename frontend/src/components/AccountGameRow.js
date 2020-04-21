@@ -71,7 +71,7 @@ class AccountGameRow extends Component {
           />
         </div>
         <div>
-          Sale Value: { ' ' }
+          Buy-in: { ' ' }
           <input
             type="number"
             disabled={!this.state.edit}

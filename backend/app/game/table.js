@@ -14,7 +14,7 @@ class GameTable {
             return reject(error);
           }
 
-          resolve(response.rows[0]);
+          resolve({ game: response.rows[0] });
         }
       )
     });
@@ -36,7 +36,7 @@ class GameTable {
             return reject(new Error('no game'));
           }
 
-          resolve(response.rows[0]);
+          resolve({ game: response.rows[0] });
         }
       )
     });
@@ -58,7 +58,7 @@ class GameTable {
             return reject(new Error('no account found'));
           }
 
-          resolve(response.rows[0]);
+          resolve({ username: response.rows[0] });
         }
       )
     });
@@ -80,7 +80,7 @@ class GameTable {
             return reject(new Error('no game'));
           }
 
-          resolve(response.rows[0]);
+          resolve({ ownerGames: response.rows[0]});
         }
       )
     });

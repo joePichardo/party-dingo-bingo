@@ -32,7 +32,7 @@ class GameValueTable {
             return reject(error);
           }
 
-          resolve(response.rows[0]);
+          resolve({ gameValue: response.rows[0] });
         }
       )
     });
@@ -54,7 +54,7 @@ class GameValueTable {
             return reject(new Error('no game values'));
           }
 
-          resolve(response.rows);
+          resolve({ gameValues: response.rows });
         }
       )
     });

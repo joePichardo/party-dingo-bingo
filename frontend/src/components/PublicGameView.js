@@ -25,7 +25,6 @@ class PublicGameView extends Component {
     }).then(response => response.json())
       .then(({ gameMembers }) => {
         this.setState({ gameMembers });
-        console.log("gameMembers", this.state.gameMembers)
       })
       .catch(error => alert(error.message));
   }

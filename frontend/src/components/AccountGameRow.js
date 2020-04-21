@@ -38,6 +38,18 @@ class AccountGameRow extends Component {
     this.setState({ showModal: false });
   }
 
+  saveTempValue = () => {
+    const gameValues = this.state.gameValues;
+    const lastValue = gameValues[gameValues.length - 1]
+    const gameValue = {
+      itemId: lastValue.itemId + 1,
+      textValue: this.state.tempValue
+    };
+
+    this.setState({ gameValues: [...this.state.gameValues, gameValue] });
+    this.setState({ tempValue: "" });
+  };
+
   saveGameValues = () => {
     this.setState({ showModal: false });
   }
@@ -159,7 +171,7 @@ class AccountGameRow extends Component {
             <button
               type="button"
               className="btn btn-primary rounded-circle"
-              onClick={this.saveGameValues}
+              onClick={this.saveTempValue}
             >
               +
             </button>

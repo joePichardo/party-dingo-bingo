@@ -69,7 +69,7 @@ class GameValueTable {
       if (settingValue !== undefined) {
         return new Promise((resolve, reject) => {
           pool.query(
-            `UPDATE game SET "${settingKey}" = $1 WHERE "gameId" = $2 AND "itemId" = $3;`,
+            `UPDATE gameValue SET "${settingKey}" = $1 WHERE "gameId" = $2 AND "itemId" = $3;`,
             [settingValue, gameId, itemId],
             (error, response) => {
               if (error) {

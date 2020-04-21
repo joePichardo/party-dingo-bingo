@@ -105,12 +105,46 @@ router.post('/:id/values/add', (req, res, next) => {
 
       const { gameId, itemId, textValue } = req.body;
 
-      if (gameValue === undefined) {
-        return GameValueTable.storeGameValue({ gameId, itemId, textValue });
-      } else {
-        return GameValueTable.updateGameValue({ gameId, itemId, textValue });
+      if (gameValue !== undefined) {
+        throw new Error(`Value exists already at position ${itemId}, must update not create.`);
       }
 
+      return GameValueTable.storeGameValue({ gameId, itemId, textValue });
+    })
+    .then(() => res.json({ message: 'successfully added value to game' }))
+    .catch(error => next(error));
+});
+
+router.post('/:id/values/update', (req, res, next) => {
+  let accountId;
+
+  authenticatedAccount({ sessionString: req.cookies.sessionString })
+    .then(({ account }) => {
+      accountId = account.id;
+
+      const { gameId } = req.body;
+
+      return GameTable.getGame({ gameId });
+    })
+    .then(game => {
+
+      if (accountId !== game.ownerId) {
+        throw new Error("You don't own this game.");
+      }
+
+      const { gameId, itemId } = req.body;
+
+      return GameValueTable.getGameValue({ gameId, itemId });
+    })
+    .then(gameValue => {
+
+      const { gameId, itemId, textValue } = req.body;
+
+      if (gameValue === undefined) {
+        throw new Error(`No value exists at position ${itemId} to update.`);
+      }
+
+      return GameValueTable.updateGameValue({ gameId, itemId, textValue });
     })
     .then(() => res.json({ message: 'successfully added value to game' }))
     .catch(error => next(error));

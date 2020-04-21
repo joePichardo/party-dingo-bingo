@@ -34,7 +34,11 @@ class AccountGameRow extends Component {
     this.setState({ edit: !this.state.edit });
   };
 
-  close= () => {
+  closeModal = () => {
+    this.setState({ showModal: false });
+  }
+
+  saveGameValues = () => {
     this.setState({ showModal: false });
   }
 
@@ -123,22 +127,51 @@ class AccountGameRow extends Component {
             this.state.edit ? this.SaveButton : this.EditButton
           }
         </div>
-        <Modal show={this.state.showModal} onHide={this.close}>
-          {
-            this.state.gameValues.map(value => {
-              return (
-                <div key={value.itemId}>
-                  {value.textValue}
-                </div>
-              );
-            })
-          }
-          Name: { ' ' }
-          <input
-            type='text'
-            value={this.state.tempValue}
-            onChange={this.updateTempValue}
-          />
+        <Modal show={this.state.showModal} onHide={this.closeModal}>
+          <div className="p-3">
+            <div>
+              <button
+                type="button"
+                className="close"
+                aria-label="Close"
+                onClick={this.closeModal}
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div>
+              {
+                this.state.gameValues.map(value => {
+                  return (
+                    <div key={value.itemId}>
+                      {value.textValue}
+                    </div>
+                  );
+                })
+              }
+            </div>
+            Name: { ' ' }
+            <input
+              type='text'
+              value={this.state.tempValue}
+              onChange={this.updateTempValue}
+            />
+            <button
+              type="button"
+              className="btn btn-primary rounded-circle"
+              onClick={this.saveGameValues}
+            >
+              +
+            </button>
+            <br />
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={this.closeModal}
+            >
+              Close
+            </button>
+          </div>
         </Modal>
       </div>
     );

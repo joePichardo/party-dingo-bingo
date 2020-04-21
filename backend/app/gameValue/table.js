@@ -7,7 +7,7 @@ class GameValueTable {
     return new Promise((resolve, reject) => {
       pool.query(
         `INSERT INTO gameValue("gameId", "itemId", "textValue") 
-        VALUES($1, $2, $3) RETURNING id`,
+        VALUES($1, $2, $3)`,
         [gameId, itemId, textValue],
         (error, response) => {
           if (error) {

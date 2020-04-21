@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import { BACKEND } from "../config";
 
 class AccountGameRow extends Component {
@@ -8,11 +8,18 @@ class AccountGameRow extends Component {
     isPublic: this.props.game.isPublic,
     buyValue: this.props.game.buyValue,
     ownerId: this.props.game.ownerId,
-    edit: false
+    edit: false,
+    showModal: false,
+    gameValues: [],
+    tempValue: ""
   };
 
   updateNickname = event => {
     this.setState({ nickname: event.target.value });
+  };
+
+  updateTempValue = event => {
+    this.setState({ tempValue: event.target.value });
   };
 
   updateBuyValue = event => {
@@ -25,6 +32,24 @@ class AccountGameRow extends Component {
 
   toggleEdit = () => {
     this.setState({ edit: !this.state.edit });
+  };
+
+  close= () => {
+    this.setState({ showModal: false });
+  }
+
+  showGameValues = () => {
+    fetch(`${BACKEND.ADDRESS}/game/${this.props.game.id}/values`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    }).then(response => response.json())
+      .then(({ gameValues }) => {
+        if (gameValues !== undefined) {
+          this.setState({ gameValues: gameValues });
+        }
+        this.setState({ showModal: !this.state.showModal });
+      })
+      .catch(error => alert(error.message));
   };
 
   save = () => {
@@ -81,6 +106,9 @@ class AccountGameRow extends Component {
           />
         </div>
         <div>
+          <button className="btn btn-outline-primary" onClick={this.showGameValues}>Show Game Values ></button>
+        </div>
+        <div>
           Public: { ' ' }
           <input
             type="checkbox"
@@ -95,6 +123,23 @@ class AccountGameRow extends Component {
             this.state.edit ? this.SaveButton : this.EditButton
           }
         </div>
+        <Modal show={this.state.showModal} onHide={this.close}>
+          {
+            this.state.gameValues.map(value => {
+              return (
+                <div key={value.itemId}>
+                  {value.textValue}
+                </div>
+              );
+            })
+          }
+          Name: { ' ' }
+          <input
+            type='text'
+            value={this.state.tempValue}
+            onChange={this.updateTempValue}
+          />
+        </Modal>
       </div>
     );
   }

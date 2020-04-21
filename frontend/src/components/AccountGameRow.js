@@ -106,7 +106,7 @@ class AccountGameRow extends Component {
             disabled={!this.state.edit}
             value={this.state.buyValue}
             onChange={this.updateBuyValue}
-            className="account-dragon-row-input"
+            className="account-game-row-input"
           />
         </div>
         <div>
@@ -119,7 +119,7 @@ class AccountGameRow extends Component {
             disabled={!this.state.edit}
             checked={this.state.isPublic}
             onChange={this.updateIsPublic}
-            className="account-dragon-row-input"
+            className="account-gamen-row-input"
           />
         </div>
         <div>

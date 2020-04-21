@@ -39,7 +39,7 @@ import fetchStates from "../reducers/fetchStates";
    render() {
      return (
        <div>
-         <h2>Dragon Stack</h2>
+         <h2>Dingo Bingo</h2>
          <FormGroup>
            <FormControl
              type='text'

@@ -7,14 +7,14 @@ class GameValueTable {
     return new Promise((resolve, reject) => {
       pool.query(
         `INSERT INTO gameValue("gameId", "itemId", "textValue") 
-        VALUES($1, $2, $3)`,
+        VALUES($1, $2, $3) RETURNING *`,
         [gameId, itemId, textValue],
         (error, response) => {
           if (error) {
             return reject(error);
           }
 
-          resolve();
+          resolve({ gameValue: response.rows[0] });
         }
       )
     });

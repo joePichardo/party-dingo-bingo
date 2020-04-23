@@ -103,11 +103,13 @@ router.post('/:id/values/add', (req, res, next) => {
     })
     .then(gameValue => {
 
-      const { gameId, itemId, textValue } = req.body;
+      const { itemId } = req.body;
 
       if (gameValue !== undefined) {
         throw new Error(`Value exists already at position ${itemId}, must update not create.`);
       }
+
+      const { gameId, textValue } = req.body;
 
       return GameValueTable.storeGameValue({ gameId, itemId, textValue });
     })
@@ -136,13 +138,13 @@ router.post('/:id/values/update', (req, res, next) => {
 
       return GameValueTable.getGameValue({ gameId, itemId });
     })
-    .then(gameValue => {
-
-      const { gameId, itemId, textValue } = req.body;
+    .then(({ gameValue }) => {
 
       if (gameValue === undefined) {
         throw new Error(`No value exists at position ${itemId} to update.`);
       }
+
+      const { gameId, itemId, textValue } = req.body;
 
       return GameValueTable.updateGameValue({ gameId, itemId, textValue });
     })

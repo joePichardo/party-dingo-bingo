@@ -11,7 +11,8 @@ class AccountGameRow extends Component {
     edit: false,
     showModal: false,
     gameValues: [],
-    tempValue: ""
+    tempValue: "",
+    modalErrorMessage: ""
   };
 
   updateNickname = event => {
@@ -39,15 +40,38 @@ class AccountGameRow extends Component {
   }
 
   saveTempValue = () => {
+
+    if (this.state.tempValue === "") {
+      this.setState({ modalErrorMessage: "Value must not be empty" });
+      return;
+    }
+
+    this.setState({ modalErrorMessage: "" });
+
     const gameValues = this.state.gameValues;
     const lastValue = gameValues[gameValues.length - 1]
     const gameValue = {
+      gameId: this.props.game.id,
       itemId: lastValue.itemId + 1,
       textValue: this.state.tempValue
     };
 
-    this.setState({ gameValues: [...this.state.gameValues, gameValue] });
-    this.setState({ tempValue: "" });
+    fetch(`${BACKEND.ADDRESS}/game/${this.props.game.id}/values/add`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(gameValue)
+    }).then(response => response.json())
+      .then(json => {
+        if (json.type === 'error') {
+          this.setState({ modalErrorMessage: json.message })
+        } else {
+          this.setState({ gameValues: [...this.state.gameValues, json.gameValue] });
+          this.setState({ tempValue: "" });
+        }
+      })
+      .catch(error => this.setState({ modalErrorMessage: error.message }) );
+
   };
 
   saveGameValues = () => {
@@ -175,6 +199,12 @@ class AccountGameRow extends Component {
             >
               +
             </button>
+            <br />
+            <div className="text-danger">
+              {
+                this.state.modalErrorMessage ? <p className="mb-2">{this.state.modalErrorMessage}</p> : <p className="mb-0"></p>
+              }
+            </div>
             <br />
             <button
               type="button"

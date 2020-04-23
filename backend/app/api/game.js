@@ -113,7 +113,12 @@ router.post('/:id/values/add', (req, res, next) => {
 
       return GameValueTable.storeGameValue({ gameId, itemId, textValue });
     })
-    .then(() => res.json({ message: 'successfully added value to game' }))
+    .then(({ gameValue }) => {
+      return res.json({
+        message: 'successfully added value to game',
+        gameValue
+      });
+    })
     .catch(error => next(error));
 });
 

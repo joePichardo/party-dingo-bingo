@@ -101,7 +101,7 @@ router.post('/:id/values/add', (req, res, next) => {
 
       return GameValueTable.getGameValue({ gameId, itemId });
     })
-    .then(gameValue => {
+    .then(({ gameValue }) => {
 
       const { itemId } = req.body;
 

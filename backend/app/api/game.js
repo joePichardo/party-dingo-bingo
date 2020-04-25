@@ -145,15 +145,20 @@ router.post('/:id/values/update', (req, res, next) => {
     })
     .then(({ gameValue }) => {
 
+      const { gameId, itemId, textValue } = req.body;
+
       if (gameValue === undefined) {
         throw new Error(`No value exists at position ${itemId} to update.`);
       }
 
-      const { gameId, itemId, textValue } = req.body;
-
       return GameValueTable.updateGameValue({ gameId, itemId, textValue });
     })
-    .then(() => res.json({ message: 'successfully added value to game' }))
+    .then(({ gameValue }) => {
+      return res.json({
+        message: 'successfully updated value for game',
+        gameValue
+      })
+    })
     .catch(error => next(error));
 });
 

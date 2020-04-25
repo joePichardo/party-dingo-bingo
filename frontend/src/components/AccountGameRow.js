@@ -169,7 +169,7 @@ class AccountGameRow extends Component {
             <div>
               <button
                 type="button"
-                className="close"
+                className="close mb-4"
                 aria-label="Close"
                 onClick={this.closeModal}
               >
@@ -187,20 +187,14 @@ class AccountGameRow extends Component {
                 })
               }
             </div>
-            Name: { ' ' }
-            <input
-              type='text'
-              value={this.state.tempValue}
-              onChange={this.updateTempValue}
-            />
-            <button
-              type="button"
-              className="btn btn-primary rounded-circle"
-              onClick={this.saveTempValue}
-            >
-              +
-            </button>
-            <br />
+            <div className="input-group mb-3">
+              <input type="text" className="form-control" value={this.state.tempValue} onChange={this.updateTempValue} placeholder="New Game Value" />
+              <div className="input-group-append">
+                <button className="btn btn-primary" type="button" onClick={this.saveTempValue}>
+                  Add
+                </button>
+              </div>
+            </div>
             <div className="text-danger">
               {
                 this.state.modalErrorMessage ? <p className="mb-2">{this.state.modalErrorMessage}</p> : <p className="mb-0"></p>

@@ -179,6 +179,7 @@ class AccountGameRow extends Component {
             <div>
               {
                 this.state.gameValues.map(value => {
+                  value.gameId = this.props.game.id;
                   return (
                     <div key={value.itemId}>
                       <AccountGameValueRow gameValue={value} />

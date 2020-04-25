@@ -77,7 +77,7 @@ class GameValueTable {
                 return reject(error);
               }
 
-              resolve({ gameValue: response.rows[0] });
+              resolve();
             }
           );
         });

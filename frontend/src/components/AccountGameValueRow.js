@@ -38,8 +38,8 @@ class AccountGameValueRow extends Component {
         if (json.type === 'error') {
           this.setState({ modalErrorMessage: json.message })
         } else {
-          this.setState({ inputValue: json.gameValue.textValue });
-          this.setState({ initialValue: json.gameValue.textValue });
+          this.setState({ inputValue: this.state.inputValue });
+          this.setState({ initialValue: this.state.inputValue });
         }
       })
       .catch(error => {

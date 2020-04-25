@@ -153,10 +153,9 @@ router.post('/:id/values/update', (req, res, next) => {
 
       return GameValueTable.updateGameValue({ gameId, itemId, textValue });
     })
-    .then(({ gameValue }) => {
+    .then(() => {
       return res.json({
-        message: 'successfully updated value for game',
-        gameValue
+        message: 'successfully updated value for game'
       })
     })
     .catch(error => next(error));

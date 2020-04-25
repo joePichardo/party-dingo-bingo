@@ -43,7 +43,8 @@ class GameValueTable {
       pool.query(
         `SELECT "itemId", "textValue"
         FROM gameValue
-        WHERE "gameId" = $1`,
+        WHERE "gameId" = $1
+        ORDER BY "itemId" ASC`,
         [gameId],
         (error, response) => {
           if (error) {
@@ -69,14 +70,14 @@ class GameValueTable {
       if (settingValue !== undefined) {
         return new Promise((resolve, reject) => {
           pool.query(
-            `UPDATE gameValue SET "${settingKey}" = $1 WHERE "gameId" = $2 AND "itemId" = $3;`,
+            `UPDATE gameValue SET "${settingKey}" = $1 WHERE "gameId" = $2 AND "itemId" = $3 RETURNING *`,
             [settingValue, gameId, itemId],
             (error, response) => {
               if (error) {
                 return reject(error);
               }
 
-              resolve();
+              resolve({ gameValue: response.rows[0] });
             }
           );
         });

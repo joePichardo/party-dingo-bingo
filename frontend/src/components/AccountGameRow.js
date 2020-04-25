@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Button, Modal} from "react-bootstrap";
 import { BACKEND } from "../config";
+import AccountGameValueRow from "./AccountGameValueRow";
 
 class AccountGameRow extends Component {
   state = {
@@ -180,7 +181,7 @@ class AccountGameRow extends Component {
                 this.state.gameValues.map(value => {
                   return (
                     <div key={value.itemId}>
-                      {value.textValue}
+                      <AccountGameValueRow gameValue={value} />
                     </div>
                   );
                 })

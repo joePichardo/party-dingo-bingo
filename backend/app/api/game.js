@@ -161,6 +161,45 @@ router.post('/:id/values/update', (req, res, next) => {
     .catch(error => next(error));
 });
 
+router.post('/:id/values/delete', (req, res, next) => {
+  let accountId;
+
+  authenticatedAccount({ sessionString: req.cookies.sessionString })
+    .then(({ account }) => {
+      accountId = account.id;
+
+      const { gameId } = req.body;
+
+      return GameTable.getGame({ gameId });
+    })
+    .then(game => {
+
+      if (accountId !== game.ownerId) {
+        throw new Error("You don't own this game.");
+      }
+
+      const { gameId, itemId } = req.body;
+
+      return GameValueTable.getGameValue({ gameId, itemId });
+    })
+    .then(({ gameValue }) => {
+
+      const { gameId, itemId } = req.body;
+
+      if (gameValue === undefined) {
+        throw new Error(`No value exists at position ${itemId} to delete.`);
+      }
+
+      return GameValueTable.deleteGameValue({ gameId, itemId });
+    })
+    .then(() => {
+      return res.json({
+        message: 'successfully deleted value for game'
+      })
+    })
+    .catch(error => next(error));
+});
+
 router.post('/buy', (req, res, next) => {
   const { gameId, buyValue } = req.body;
   let buyerId;

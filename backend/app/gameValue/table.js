@@ -38,6 +38,25 @@ class GameValueTable {
     });
   }
 
+  static deleteGameValue({ gameId, itemId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `DELETE FROM gameValue
+        WHERE "gameId" = $1 AND "itemId" = $2`,
+        [gameId, itemId],
+        (error, response) => {
+          if (error) {
+            return reject(error);
+          }
+
+          console.log(response);
+
+          resolve();
+        }
+      )
+    });
+  }
+
   static getGameValues({ gameId }) {
     return new Promise((resolve, reject) => {
       pool.query(

@@ -47,26 +47,6 @@ class AccountGameValueRow extends Component {
       } );
   };
 
-  deleteGameValue = () => {
-    console.log("delete");
-    // const { dragonId, saleValue } = this.props.dragon;
-    //
-    // fetch(`${BACKEND.ADDRESS}/dragon/buy`, {
-    //   method: 'POST',
-    //   credentials: 'include',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ dragonId, saleValue })
-    // }).then(response => response.json())
-    //   .then(json => {
-    //     alert(json.message);
-    //
-    //     if (json.type !== 'error') {
-    //       history.push('/account-dragons');
-    //     }
-    //   })
-    //   .catch(error => alert(error.message));
-  };
-
   render() {
     return (
       <div key={this.props.gameValue.itemId}>
@@ -81,7 +61,7 @@ class AccountGameValueRow extends Component {
             <button className="btn btn-info" type="button" onClick={this.updateGameValue}>
               Update
             </button>
-            <button className="btn btn-danger" type="button" onClick={this.deleteGameValue}>
+            <button className="btn btn-danger" type="button" onClick={() => this.props.deleteGameValue(this.props.gameValue.gameId, this.props.gameValue.itemId)}>
               Delete
             </button>
           </div>

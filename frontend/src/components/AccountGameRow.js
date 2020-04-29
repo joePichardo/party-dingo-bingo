@@ -4,6 +4,13 @@ import { BACKEND } from "../config";
 import AccountGameValueRow from "./AccountGameValueRow";
 
 class AccountGameRow extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.deleteGameValue = this.deleteGameValue.bind(this)
+  }
+
   state = {
     nickname: this.props.game.nickname,
     isPublic: this.props.game.isPublic,
@@ -14,6 +21,42 @@ class AccountGameRow extends Component {
     gameValues: [],
     tempValue: "",
     modalErrorMessage: ""
+  };
+
+  deleteGameValue(gameId, itemId) {
+
+    const deletedGameValue = {
+      gameId,
+      itemId
+    };
+
+    fetch(`${BACKEND.ADDRESS}/game/${gameId}/values/delete`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(deletedGameValue)
+    }).then(response => response.json())
+      .then(json => {
+        if (json.type === 'error') {
+          this.setState({ modalErrorMessage: json.message })
+        } else {
+          console.log('json', json);
+          this.setState({
+            gameValues: this.state.gameValues.filter(function(gameValue) {
+
+              if (gameValue.gameId === deletedGameValue.gameId && gameValue.itemId === deletedGameValue.itemId) {
+
+              } else {
+                return gameValue;
+              }
+
+            })
+          });
+        }
+      })
+      .catch(error => {
+        this.setState({ modalErrorMessage: error.message });
+      } );
   };
 
   updateNickname = event => {
@@ -182,7 +225,7 @@ class AccountGameRow extends Component {
                   value.gameId = this.props.game.id;
                   return (
                     <div key={value.itemId}>
-                      <AccountGameValueRow gameValue={value} />
+                      <AccountGameValueRow gameValue={value} deleteGameValue={this.deleteGameValue} />
                     </div>
                   );
                 })

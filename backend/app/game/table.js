@@ -33,7 +33,7 @@ class GameTable {
           }
 
           if (response.rows.length === 0) {
-            return reject(new Error('no game'));
+            return reject(new Error('no game found'));
           }
 
           resolve(response.rows[0]);

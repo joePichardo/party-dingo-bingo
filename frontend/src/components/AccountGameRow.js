@@ -213,10 +213,13 @@ class AccountGameRow extends Component {
             className="account-gamen-row-input"
           />
         </div>
-        <div>
+        <div className="mb-3">
           {
             this.state.edit ? this.SaveButton : this.EditButton
           }
+        </div>
+        <div>
+          <button className="btn btn-danger" type="button" onClick={() => this.props.deleteGame(this.props.game.id)}>Delete</button>
         </div>
         <Modal show={this.state.showModal} onHide={this.closeModal}>
           <div className="p-3">

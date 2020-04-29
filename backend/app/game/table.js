@@ -42,6 +42,24 @@ class GameTable {
     });
   }
 
+  static deleteGame({ gameId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        `DELETE
+        FROM game
+        WHERE game.id = $1`,
+        [gameId],
+        (error, response) => {
+          if (error) {
+            return reject(error);
+          }
+
+          resolve();
+        }
+      )
+    });
+  }
+
   static getGameOwner({ ownerId }) {
     return new Promise((resolve, reject) => {
       pool.query(

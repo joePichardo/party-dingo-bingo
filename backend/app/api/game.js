@@ -50,6 +50,31 @@ router.put('/update', (req, res, next) => {
     .catch(error => next(error));
 });
 
+router.put('/delete', (req, res, next) => {
+  let accountId;
+
+  authenticatedAccount({ sessionString: req.cookies.sessionString })
+    .then(({ account }) => {
+      accountId = account.id;
+
+      const { gameId } = req.body;
+
+      return GameTable.getGame({ gameId });
+    })
+    .then(game => {
+
+      if (accountId !== game.ownerId) {
+        throw new Error("You don't own this game.");
+      }
+
+      const { gameId } = req.body;
+
+      return GameTable.deleteGame({ gameId });
+    })
+    .then(() => res.json({ message: 'successfully deleted game' }))
+    .catch(error => next(error));
+});
+
 router.get('/public-games', (req, res, next) => {
   getPublicGames()
     .then(({ games }) => res.json({ games }))

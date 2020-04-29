@@ -22,7 +22,11 @@ export const fetchGame = () => dispatch => {
           game: json.game
         });
 
-        history.push('/account-games');
+        if (history.location.pathname === '/account-games') {
+          history.go(0);
+        } else {
+          history.push('/account-games');
+        }
       }
 
     })

@@ -14,10 +14,6 @@ class AccountGameTable {
             return reject(error);
           }
 
-          if (response.rows.length === 0) {
-            return reject(new Error('no game'));
-          }
-
           resolve(response.rows);
         }
       )

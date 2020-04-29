@@ -147,7 +147,7 @@ class AccountGameRow extends Component {
       .catch(error => alert(error.message));
   };
 
-  save = () => {
+  updateGame = () => {
     fetch(`${BACKEND.ADDRESS}/game/update`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -171,7 +171,7 @@ class AccountGameRow extends Component {
   };
 
   get SaveButton() {
-    return <Button onClick={this.save}>Save</Button>;
+    return <Button onClick={this.updateGame}>Save</Button>;
   }
 
   get EditButton() {

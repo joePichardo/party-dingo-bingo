@@ -210,7 +210,7 @@ class AccountGameRow extends Component {
             disabled={!this.state.edit}
             checked={this.state.isPublic}
             onChange={this.updateIsPublic}
-            className="account-gamen-row-input"
+            className="account-game-row-input"
           />
         </div>
         <div className="mb-3">

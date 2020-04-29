@@ -70,10 +70,6 @@ class GameValueTable {
             return reject(error);
           }
 
-          if (response.rows.length === 0) {
-            return reject(new Error('no game values'));
-          }
-
           resolve({ gameValues: response.rows });
         }
       )

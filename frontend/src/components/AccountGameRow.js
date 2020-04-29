@@ -111,9 +111,6 @@ class AccountGameRow extends Component {
       };
     }
 
-
-    console.log('fetch add');
-
     fetch(`${BACKEND.ADDRESS}/game/${this.props.game.id}/values/add`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

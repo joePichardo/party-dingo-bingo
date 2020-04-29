@@ -92,13 +92,27 @@ class AccountGameRow extends Component {
 
     this.setState({ modalErrorMessage: "" });
 
+    let gameValue;
+
     const gameValues = this.state.gameValues;
-    const lastValue = gameValues[gameValues.length - 1]
-    const gameValue = {
-      gameId: this.props.game.id,
-      itemId: lastValue.itemId + 1,
-      textValue: this.state.tempValue
-    };
+    if (gameValues.length === 0) {
+
+      gameValue = {
+        gameId: this.props.game.id,
+        itemId: 1,
+        textValue: this.state.tempValue
+      };
+    } else {
+      const lastValue = gameValues[gameValues.length - 1]
+      gameValue = {
+        gameId: this.props.game.id,
+        itemId: lastValue.itemId + 1,
+        textValue: this.state.tempValue
+      };
+    }
+
+
+    console.log('fetch add');
 
     fetch(`${BACKEND.ADDRESS}/game/${this.props.game.id}/values/add`, {
       method: 'POST',

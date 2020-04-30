@@ -18,6 +18,8 @@ class Home extends Component {
           <Link to='/account-games'>Account Games</Link>
           <br />
           <Link to='/public-games'>Public Games</Link>
+          <br />
+          <Link to='/active-games'>Active Games</Link>
         </div>
       </div>
     );

@@ -33,7 +33,7 @@ class PublicGameRow extends Component {
         alert(json.message);
 
         if (json.type !== 'error') {
-          history.push('/account-games');
+          history.push('/active-games');
         }
       })
       .catch(error => alert(error.message));

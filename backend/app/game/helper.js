@@ -25,4 +25,29 @@ const getPublicGames = () => {
   });
 };
 
-module.exports = { getPublicGames };
+const getActiveGames = (accountId) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      'SELECT "gameId" FROM gameMember WHERE "accountId" = $1',
+      [accountId],
+      (error, response) => {
+        if (error) {
+          return reject(error);
+        }
+
+        const activeGameRows = response.rows;
+
+        Promise.all(
+          activeGameRows.map(
+            ({ gameId }) => {
+              return GameTable.getGame({ gameId: gameId });
+            }
+          )
+        ).then(games => resolve({ games }))
+          .catch(error => reject(error));
+      }
+    )
+  });
+};
+
+module.exports = { getPublicGames, getActiveGames };

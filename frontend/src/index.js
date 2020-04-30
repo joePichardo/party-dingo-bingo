@@ -10,10 +10,12 @@ import Root from "./components/Root";
 import AccountGames from "./components/AccountGames";
 import PublicGames from "./components/PublicGames";
 import PublicGameView from "./components/PublicGameView";
+import ActiveGames from "./components/ActiveGames";
 import { fetchAuthenticated } from "./actions/account";
 import './index.css';
 
 import { fetchPublicGames } from "./actions/publicGames";
+import { fetchActiveGames } from "./actions/activeGames";
 
 
 
@@ -25,6 +27,7 @@ const store = createStore(
 );
 
 store.dispatch(fetchPublicGames());
+store.dispatch(fetchActiveGames());
 
 const AuthRoute = props => {
   if (!store.getState().account.loggedIn) {
@@ -46,6 +49,7 @@ store.dispatch(fetchAuthenticated())
             <AuthRoute path='/account-games' component={AccountGames} />
             <AuthRoute exact path='/public-games' component={PublicGames} />
             <AuthRoute exact path='/public-games/:id' component={PublicGameView} />
+            <AuthRoute exact path='/active-games' component={ActiveGames} />
           </Switch>
         </Router>
       </Provider>,

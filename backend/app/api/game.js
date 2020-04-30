@@ -5,7 +5,7 @@ const GameMemberTable = require('../gameMember/table');
 const GameValueTable = require('../gameValue/table');
 const AccountTable = require('../account/table');
 const { authenticatedAccount } = require('./helper');
-const { getPublicGames } = require('../game/helper');
+const { getPublicGames, getActiveGames } = require('../game/helper');
 
 const router = new Router();
 
@@ -77,6 +77,19 @@ router.put('/delete', (req, res, next) => {
 
 router.get('/public-games', (req, res, next) => {
   getPublicGames()
+    .then(({ games }) => res.json({ games }))
+    .catch(error => next(error));
+});
+
+router.get('/active-games', (req, res, next) => {
+  let accountId;
+
+  authenticatedAccount({ sessionString: req.cookies.sessionString })
+    .then(({ account }) => {
+      accountId = account.id;
+
+      return getActiveGames(accountId);
+    })
     .then(({ games }) => res.json({ games }))
     .catch(error => next(error));
 });

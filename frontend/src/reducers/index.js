@@ -7,6 +7,7 @@ import dragon from "./dragon";
 import generation from "./generation";
 import publicDragons from "./publicDragons";
 import publicGames from "./publicGames";
+import activeGames from "./activeGames";
 
 
 export default combineReducers({
@@ -17,5 +18,6 @@ export default combineReducers({
   dragon,
   generation,
   publicDragons,
-  publicGames
+  publicGames,
+  activeGames
 });

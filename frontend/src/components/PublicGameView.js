@@ -31,17 +31,21 @@ class PublicGameView extends Component {
 
   render() {
     return(
-      <div>
-        <Button onClick={this.goBack}>Go Back</Button>
-        {
-          this.state.gameMembers.map(member => {
-            return (
-              <div key={member.id}>
-                <PublicGameMemberRow member={member} />
-              </div>
-            )
-          })
-        }
+      <div className="container">
+        <div className="row">
+          <div className="col-12">
+            <Button onClick={this.goBack}>Go Back</Button>
+            {
+              this.state.gameMembers.map(member => {
+                return (
+                  <div key={member.id}>
+                    <PublicGameMemberRow member={member} />
+                  </div>
+                )
+              })
+            }
+          </div>
+        </div>
       </div>
     )
   }

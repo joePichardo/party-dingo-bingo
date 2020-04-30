@@ -38,31 +38,35 @@ import fetchStates from "../reducers/fetchStates";
 
    render() {
      return (
-       <div>
-         <h2>Dingo Bingo</h2>
-         <FormGroup>
-           <FormControl
-             type='text'
-             value={this.state.username}
-             placeholder='username'
-             onChange={this.updateUsername}
-           />
-         </FormGroup>
-         <FormGroup>
-           <FormControl
-             type='password'
-             value={this.state.password}
-             placeholder='password'
-             onChange={this.updatePassword}
-           />
-         </FormGroup>
-         <div>
-           <Button onClick={this.login}>Log in</Button>
-           <span> or </span>
-           <Button onClick={this.signup}>Sign up</Button>
+       <div className="container">
+         <div className="row">
+           <div className="col-12">
+             <h2>Dingo Bingo</h2>
+             <FormGroup>
+               <FormControl
+                 type='text'
+                 value={this.state.username}
+                 placeholder='username'
+                 onChange={this.updateUsername}
+               />
+             </FormGroup>
+             <FormGroup>
+               <FormControl
+                 type='password'
+                 value={this.state.password}
+                 placeholder='password'
+                 onChange={this.updatePassword}
+               />
+             </FormGroup>
+             <div>
+               <Button onClick={this.login}>Log in</Button>
+               <span> or </span>
+               <Button onClick={this.signup}>Sign up</Button>
+             </div>
+             <br />
+             {this.Error}
+           </div>
          </div>
-         <br />
-         {this.Error}
        </div>
      );
    }

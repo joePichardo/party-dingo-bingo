@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchActiveGames } from "../actions/activeGames";
 import { Link } from 'react-router-dom';
-import PublicGameRow from "./PublicGameRow";
 import Game from "./Game";
+import ActiveGameRow from "./ActiveGameRow";
 
 class ActiveGames extends Component {
   componentDidMount() {
@@ -27,7 +27,7 @@ class ActiveGames extends Component {
               this.props.activeGames.games.map(game => {
                 return (
                   <div key={game.id}>
-                    <PublicGameRow game={game} />
+                    <ActiveGameRow game={game} />
                     <hr />
                   </div>
                 )

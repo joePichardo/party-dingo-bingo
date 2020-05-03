@@ -11,6 +11,7 @@ import AccountGames from "./components/AccountGames";
 import PublicGames from "./components/PublicGames";
 import PublicGameView from "./components/PublicGameView";
 import ActiveGames from "./components/ActiveGames";
+import ActiveGameView from "./components/ActiveGameView";
 import { fetchAuthenticated } from "./actions/account";
 import './index.css';
 
@@ -50,6 +51,7 @@ store.dispatch(fetchAuthenticated())
             <AuthRoute exact path='/public-games' component={PublicGames} />
             <AuthRoute exact path='/public-games/:id' component={PublicGameView} />
             <AuthRoute exact path='/active-games' component={ActiveGames} />
+            <AuthRoute exact path='/active-games/:id' component={ActiveGameView} />
           </Switch>
         </Router>
       </Provider>,

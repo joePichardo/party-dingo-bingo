@@ -12,6 +12,9 @@
 - Show thumbs up or down if update was successful
 - Same thing with delete button
 
+## Fix List
+- Fix saving game on account games, going home, then going back to account games. Currently doesn't show correct updated game
+
 ##To Debug Node.js
 - Use command in terminal `node --inspect bin/server.js ` to run the backend in debug mode
 - Run the front end

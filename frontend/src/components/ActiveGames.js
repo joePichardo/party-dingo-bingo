@@ -8,7 +8,6 @@ import ActiveGameRow from "./ActiveGameRow";
 class ActiveGames extends Component {
   componentDidMount() {
     this.props.fetchActiveGames();
-    console.log()
   }
 
   render() {

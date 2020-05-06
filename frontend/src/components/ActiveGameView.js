@@ -58,7 +58,7 @@ class ActiveGameView extends Component {
               <Tab eventKey="board" title="Board">
                 <ul className="list-group">
                   <li className="list-group-item">
-                    <BingoBoard />
+                    <BingoBoard gameId={this.props.match.params.id} />
                   </li>
                 </ul>
               </Tab>

@@ -49,7 +49,7 @@ class ActiveGameValueRow extends Component {
 
   render() {
     return (
-      <div key={this.props.gameValue.itemId}>
+      <div key={this.props.gameValue.itemId} onClick={() => this.props.chooseGameValue(this.state.inputValue)} className="p-3">
         { this.state.inputValue }
       </div>
     )

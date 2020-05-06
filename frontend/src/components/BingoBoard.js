@@ -14,7 +14,8 @@ class BingoBoard extends Component {
       1: "", 2: "", 3: "", 4: "", 5: "", 6: "", 7: "", 8: "", 9: "", 10: "", 11: "", 12: "", 13: "", 14: "", 15: "", 16: "", 17: "", 18: "", 19: "", 20: "", 21: "", 22: "", 23: "", 24: "", 25: ""
     },
     showModal: false,
-    modalErrorMessage: ""
+    modalErrorMessage: "",
+    chosenPositionId: 1
   };
 
   componentDidMount() {
@@ -25,7 +26,9 @@ class BingoBoard extends Component {
     this.setState({ showModal: false });
   }
 
-  showGameValues = () => {
+  showGameValues = (positionId) => {
+    this.updatePositionId(positionId);
+
     fetch(`${BACKEND.ADDRESS}/game/${this.props.gameId}/values`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -39,8 +42,16 @@ class BingoBoard extends Component {
       .catch(error => alert(error.message));
   };
 
-  chooseGameValue() {
+  chooseGameValue = (gameValue) => {
+    this.setState(prevState => {
+      let gameSquares = Object.assign({}, prevState.gameSquares);
+      gameSquares[this.state.chosenPositionId] = gameValue;
+      return { gameSquares };
+    })
+  }
 
+  updatePositionId = (positionId) => {
+    this.setState({ chosenPositionId: positionId });
   }
 
   render() {
@@ -66,7 +77,7 @@ class BingoBoard extends Component {
           {
             Object.entries(this.state.gameSquares).map((name, key) => {
               return (
-                <BingoSquare key={name[0]} showGameValues={this.showGameValues}>
+                <BingoSquare key={name[0]} positionId={name[0]} showGameValues={this.showGameValues}>
                   <div>{name[1]}</div>
                 </BingoSquare>
               )
@@ -92,7 +103,7 @@ class BingoBoard extends Component {
                 this.state.gameValues.map(value => {
                   value.gameId = this.props.gameId;
                   return (
-                    <li className="list-group-item" key={value.itemId}>
+                    <li className="list-group-item p-0" key={value.itemId} >
                       <ActiveGameValueRow gameValue={value} chooseGameValue={this.chooseGameValue} />
                     </li>
                   );

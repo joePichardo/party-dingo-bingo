@@ -22,7 +22,7 @@ class BingoSquare extends Component {
           overflow: 'scroll'
         }}
         className="bingo-square d-flex justify-content-center p-2"
-        onClick={this.props.showGameValues}
+        onClick={() => this.props.showGameValues(this.props.positionId)}
       >
         <div className="mt-auto mb-auto">
           {this.props.children}

@@ -86,6 +86,7 @@ class BingoBoard extends Component {
               </button>
             </div>
             <div>
+              <h4>Add value to game square</h4>
               <ul className="list-group">
               {
                 this.state.gameValues.map(value => {

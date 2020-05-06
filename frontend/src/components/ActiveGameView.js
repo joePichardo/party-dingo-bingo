@@ -5,6 +5,7 @@ import {Button, Tabs, Tab} from "react-bootstrap";
 import ActiveGameMemberRow from "./ActiveGameMemberRow";
 import BingoBoard from "./BingoBoard";
 import ActiveGameValueRow from "./ActiveGameValueRow";
+import {Link} from "react-router-dom";
 
 class ActiveGameView extends Component {
 
@@ -50,7 +51,7 @@ class ActiveGameView extends Component {
       <div className="container">
         <div className="row">
           <div className="col-12 mb-5">
-            <Button onClick={this.goBack}>Go Back</Button>
+            <Link to='/active-games' className="btn btn-primary">Active Games</Link>
           </div>
           <div className="col-12">
 

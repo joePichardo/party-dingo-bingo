@@ -43,6 +43,17 @@ class BingoBoard extends Component {
   };
 
   chooseGameValue = (gameValue) => {
+
+    var valueExists = this.findGameValue(gameValue);
+
+    if (valueExists) {
+      this.setState(prevState => {
+        let gameSquares = Object.assign({}, prevState.gameSquares);
+        gameSquares[valueExists] = "";
+        return { gameSquares };
+      });
+    }
+
     this.setState(prevState => {
       let gameSquares = Object.assign({}, prevState.gameSquares);
       gameSquares[this.state.chosenPositionId] = gameValue;
@@ -54,6 +65,15 @@ class BingoBoard extends Component {
 
   updatePositionId = (positionId) => {
     this.setState({ chosenPositionId: positionId });
+  }
+
+  findGameValue(textValue) {
+    for (let [key, value] of Object.entries(this.state.gameSquares)) {
+      if (value === textValue) {
+        return key;
+      }
+    }
+    return null;
   }
 
   render() {

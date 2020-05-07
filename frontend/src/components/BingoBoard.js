@@ -47,7 +47,9 @@ class BingoBoard extends Component {
       let gameSquares = Object.assign({}, prevState.gameSquares);
       gameSquares[this.state.chosenPositionId] = gameValue;
       return { gameSquares };
-    })
+    });
+
+    this.setState({ showModal: false });
   }
 
   updatePositionId = (positionId) => {

@@ -69,6 +69,29 @@ class BingoBoard extends Component {
         gameSquares[valueExists] = "";
         return { gameSquares };
       });
+      fetch(`${BACKEND.ADDRESS}/game/${this.props.gameId}/member/values/update`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          gameId: this.props.gameId,
+          itemId: gameValue.itemId,
+          positionId: this.state.chosenPositionId
+        })
+      }).then(response => response.json())
+        .then(json => {
+          if (json.type === 'error') {
+            this.setState({ modalErrorMessage: json.message });
+          } else {
+            this.setState(prevState => {
+              let gameSquares = Object.assign({}, prevState.gameSquares);
+              gameSquares[this.state.chosenPositionId] = gameValue.textValue;
+              return { gameSquares };
+            });
+            this.setState({ showModal: false });
+          }
+        })
+        .catch(error => alert(error.message));
     } else {
       fetch(`${BACKEND.ADDRESS}/game/${this.props.gameId}/member/values/add`, {
         method: 'POST',

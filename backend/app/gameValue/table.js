@@ -49,8 +49,6 @@ class GameValueTable {
             return reject(error);
           }
 
-          console.log(response);
-
           resolve();
         }
       )

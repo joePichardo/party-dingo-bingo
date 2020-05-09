@@ -4,14 +4,14 @@ class GameMemberDataTable {
   static storeGameMemberData({ gameId, itemId, accountId, positionId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        'INSERT INTO gameMemberData("gameId", "itemId", "accountId", "positionId") VALUES($1, $2)',
+        'INSERT INTO gameMemberData("gameId", "itemId", "accountId", "positionId") VALUES($1, $2, $3, $4) RETURNING *',
         [gameId, itemId, accountId, positionId],
         (error, response) => {
           if (error) {
             return error
           }
 
-          resolve();
+          resolve({ gameMemberData: response.rows[0] });
         }
       );
     })
@@ -20,7 +20,12 @@ class GameMemberDataTable {
   static getGameMemberData({ gameId, accountId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        'SELECT "itemId", "positionId" FROM gameMemberData WHERE "gameId" = $1 AND "accountId" = $2',
+        `SELECT gv."gameId", gv."itemId", gv."textValue", gmd."positionId"
+        FROM gameMemberData AS gmd
+        INNER JOIN gameValue AS gv 
+        ON gmd."itemId" = gv."itemId"
+        WHERE gmd."gameId" = $1
+        AND gmd."accountId" = $2`,
         [gameId, accountId],
         (error, response) => {
           if (error) {
@@ -28,6 +33,38 @@ class GameMemberDataTable {
           }
 
           resolve({ gameMemberData: response.rows });
+        }
+      )
+    })
+  }
+
+  static getGameMemberDataAt({ gameId, accountId, positionId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        'SELECT "itemId" FROM gameMemberData WHERE "gameId" = $1 AND "accountId" = $2 AND "positionId" = $3',
+        [gameId, accountId, positionId],
+        (error, response) => {
+          if (error) {
+            return reject(error);
+          }
+
+          resolve({ gameMemberData: response.rows[0] });
+        }
+      )
+    })
+  }
+
+  static deleteGameMemberData({ gameId, accountId, itemId, positionId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        'DELETE FROM gameMemberData WHERE "gameId" = $1 AND "accountId" = $2 AND "itemId" = $3 AND "positionId" = $4',
+        [gameId, accountId, itemId, positionId],
+        (error, response) => {
+          if (error) {
+            return reject(error);
+          }
+
+          resolve();
         }
       )
     })

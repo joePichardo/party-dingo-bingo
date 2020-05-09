@@ -54,6 +54,22 @@ class GameMemberDataTable {
     })
   }
 
+  static getGameMemberDataItem({ gameId, accountId, itemId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        'SELECT "positionId" FROM gameMemberData WHERE "gameId" = $1 AND "accountId" = $2 AND "itemId" = $3',
+        [gameId, accountId, itemId],
+        (error, response) => {
+          if (error) {
+            return reject(error);
+          }
+
+          resolve({ gameMemberData: response.rows[0] });
+        }
+      )
+    })
+  }
+
   static deleteGameMemberData({ gameId, accountId, itemId, positionId }) {
     return new Promise((resolve, reject) => {
       pool.query(
@@ -79,7 +95,7 @@ class GameMemberDataTable {
       if (settingValue !== undefined) {
         return new Promise((resolve, reject) => {
           pool.query(
-            `UPDATE gameMemberData SET "${settingKey}" = $1 WHERE "gameId" = $2 AND "itemId" = $3 AND "accountId" = $4;`,
+            `UPDATE gameMemberData SET "${settingKey}" = $1 WHERE "gameId" = $2 AND "itemId" = $3 AND "accountId" = $4`,
             [settingValue, gameId, itemId, accountId],
             (error, response) => {
               if (error) {

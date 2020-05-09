@@ -2,6 +2,7 @@ const { Router } = require('express');
 const Game = require('../game/index');
 const GameTable = require('../game/table');
 const GameMemberTable = require('../gameMember/table');
+const GameMemberDataTable = require('../gameMemberData/table');
 const GameValueTable = require('../gameValue/table');
 const AccountTable = require('../account/table');
 const { authenticatedAccount } = require('./helper');
@@ -234,6 +235,142 @@ router.post('/:id/values/delete', (req, res, next) => {
       return res.json({
         message: 'successfully deleted value for game'
       })
+    })
+    .catch(error => next(error));
+});
+
+router.get('/:id/member/values', (req, res, next) => {
+  const gameId = req.params.id;
+
+  let accountId;
+
+  authenticatedAccount({ sessionString: req.cookies.sessionString })
+    .then(({ account }) => {
+      accountId = account.id;
+
+      return GameMemberDataTable.getGameMemberData({ gameId, accountId })
+    })
+    .then(({ gameMemberData }) => res.json({ gameMemberData }))
+    .catch(error => next(error));
+});
+
+router.post('/:id/member/values/add', (req, res, next) => {
+  const gameId = req.params.id;
+  const { itemId, positionId } = req.body;
+
+  let accountId;
+
+  authenticatedAccount({ sessionString: req.cookies.sessionString })
+    .then(({ account, authenticated }) => {
+      if (!authenticated) {
+        throw new Error('Unauthenticated');
+      }
+
+      accountId = account.id;
+
+      return GameMemberTable.getGameMember({ gameId, accountId });
+    })
+    .then(({ accountId }) => {
+
+      if (accountId === undefined) {
+        throw new Error("You are not a member of the game.");
+      }
+
+      return GameMemberDataTable.getGameMemberDataAt({ gameId, itemId, accountId, positionId });
+    })
+    .then(({ gameMemberData }) => {
+
+      if (gameMemberData !== undefined) {
+        throw new Error(`Value exists already at position ${positionId}, must update not create.`);
+      }
+
+      return GameMemberDataTable.storeGameMemberData({ gameId, itemId, accountId, positionId });
+    })
+    .then(({ gameMemberData }) => {
+      return res.json({
+        message: 'successfully added value to game',
+        gameMemberData
+      });
+    })
+    .catch(error => next(error));
+});
+
+router.post('/:id/member/values/update', (req, res, next) => {
+  const gameId = req.params.id;
+  const { itemId, positionId } = req.body;
+
+  let accountId;
+
+  authenticatedAccount({ sessionString: req.cookies.sessionString })
+    .then(({ account, authenticated }) => {
+      if (!authenticated) {
+        throw new Error('Unauthenticated');
+      }
+
+      accountId = account.id;
+
+      return GameMemberTable.getGameMember({ gameId, accountId });
+    })
+    .then(({ accountId }) => {
+
+      if (accountId === undefined) {
+        throw new Error("You are not a member of the game.");
+      }
+
+      return GameMemberDataTable.getGameMemberDataAt({ gameId, itemId, accountId, positionId });
+    })
+    .then(({ gameMemberData }) => {
+
+      if (gameMemberData === undefined) {
+        throw new Error(`Value does not exist.`);
+      }
+
+      return GameMemberDataTable.updateGameMemberData({ gameId, itemId, accountId, positionId });
+    })
+    .then(() => {
+      return res.json({
+        message: 'successfully updated value for game'
+      })
+    })
+    .catch(error => next(error));
+});
+
+router.post('/:id/member/values/delete', (req, res, next) => {
+  const gameId = req.params.id;
+  const { itemId, positionId } = req.body;
+
+  let accountId;
+
+  authenticatedAccount({ sessionString: req.cookies.sessionString })
+    .then(({ account, authenticated }) => {
+      if (!authenticated) {
+        throw new Error('Unauthenticated');
+      }
+
+      accountId = account.id;
+
+      return GameMemberTable.getGameMember({ gameId, accountId });
+    })
+    .then(({ accountId }) => {
+
+      if (accountId === undefined) {
+        throw new Error("You are not a member of the game.");
+      }
+
+      return GameMemberDataTable.getGameMemberDataAt({ gameId, itemId, accountId, positionId });
+    })
+    .then(({ gameMemberData }) => {
+
+      if (gameMemberData === undefined) {
+        throw new Error(`Value does not exist at position ${positionId}.`);
+      }
+
+      return GameMemberDataTable.deleteGameMemberData({ gameId, itemId, accountId, positionId });
+    })
+    .then(() => {
+      return res.json({
+        message: 'successfully deleted value to game'
+      });
     })
     .catch(error => next(error));
 });

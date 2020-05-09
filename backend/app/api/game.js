@@ -317,7 +317,7 @@ router.post('/:id/member/values/update', (req, res, next) => {
         throw new Error("You are not a member of the game.");
       }
 
-      return GameMemberDataTable.getGameMemberDataAt({ gameId, itemId, accountId, positionId });
+      return GameMemberDataTable.getGameMemberDataItem({ gameId, accountId, itemId });
     })
     .then(({ gameMemberData }) => {
 

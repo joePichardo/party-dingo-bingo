@@ -20,6 +20,23 @@ class BingoBoard extends Component {
 
   componentDidMount() {
 
+    fetch(`${BACKEND.ADDRESS}/game/${this.props.gameId}/member/values/`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' }
+    }).then(response => response.json())
+      .then(({ gameMemberData }) => {
+        for (var i = 0; i < gameMemberData.length; i++) {
+          this.setState(prevState => {
+            let gameSquares = Object.assign({}, prevState.gameSquares);
+            gameSquares[gameMemberData[i].positionId] = gameMemberData[i].textValue;
+            return { gameSquares };
+          });
+        }
+
+      })
+      .catch(error => alert(error.message));
+
   }
 
   closeModal = () => {
@@ -44,7 +61,7 @@ class BingoBoard extends Component {
 
   chooseGameValue = (gameValue) => {
 
-    var valueExists = this.findGameValue(gameValue);
+    var valueExists = this.findGameValue(gameValue.textValue);
 
     if (valueExists) {
       this.setState(prevState => {
@@ -52,15 +69,32 @@ class BingoBoard extends Component {
         gameSquares[valueExists] = "";
         return { gameSquares };
       });
+    } else {
+      fetch(`${BACKEND.ADDRESS}/game/${this.props.gameId}/member/values/add`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          gameId: this.props.gameId,
+          itemId: gameValue.itemId,
+          positionId: this.state.chosenPositionId
+        })
+      }).then(response => response.json())
+        .then(json => {
+          if (json.type === 'error') {
+            this.setState({ modalErrorMessage: json.message });
+          } else {
+            this.setState(prevState => {
+              let gameSquares = Object.assign({}, prevState.gameSquares);
+              gameSquares[this.state.chosenPositionId] = gameValue.textValue;
+              return { gameSquares };
+            });
+            this.setState({ showModal: false });
+          }
+        })
+        .catch(error => alert(error.message));
     }
 
-    this.setState(prevState => {
-      let gameSquares = Object.assign({}, prevState.gameSquares);
-      gameSquares[this.state.chosenPositionId] = gameValue;
-      return { gameSquares };
-    });
-
-    this.setState({ showModal: false });
   }
 
   updatePositionId = (positionId) => {

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchActiveGames } from "../actions/activeGames";
 import { Link } from 'react-router-dom';
-import Game from "./Game";
 import ActiveGameRow from "./ActiveGameRow";
+import ButtonCreateGame from "./ButtonCreateGame";
 
 class ActiveGames extends Component {
   componentDidMount() {
@@ -18,7 +18,7 @@ class ActiveGames extends Component {
             <Link to="/">Home</Link>
             <br />
             <br />
-            <Game />
+            <ButtonCreateGame />
             <br />
             <h3>Active Games</h3>
             <hr />

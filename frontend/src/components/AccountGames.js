@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { fetchAccountGames } from "../actions/accountGames";
 import AccountGameRow from "./AccountGameRow";
 import {BACKEND} from "../config";
-import Game from "./Game";
+import ButtonCreateGame from "./ButtonCreateGame";
 
 class AccountGames extends Component {
   constructor(props) {
@@ -44,7 +44,7 @@ class AccountGames extends Component {
             <Link to='/'>Home</Link>
             <br />
             <br />
-            <Game />
+            <ButtonCreateGame />
             <br />
             <h3>Account Games</h3>
             <hr />

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchPublicGames } from "../actions/publicGames";
 import { Link } from 'react-router-dom';
 import PublicGameRow from "./PublicGameRow";
-import Game from "./Game";
+import ButtonCreateGame from "./ButtonCreateGame";
 
 class PublicGames extends Component {
   componentDidMount() {
@@ -18,7 +18,7 @@ class PublicGames extends Component {
             <Link to="/">Home</Link>
             <br />
             <br />
-            <Game />
+            <ButtonCreateGame />
             <br />
             <h3>Public Games</h3>
             <hr />

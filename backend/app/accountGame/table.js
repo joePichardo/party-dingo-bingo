@@ -5,7 +5,7 @@ class AccountGameTable {
   static getAccountGames({ accountId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `SELECT id, birthdate, nickname, "isPublic", "buyValue", "potValue", "ownerId"
+        `SELECT *
         FROM game
         WHERE "ownerId" = $1`,
         [accountId],

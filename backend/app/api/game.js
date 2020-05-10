@@ -10,14 +10,16 @@ const { getPublicGames, getActiveGames } = require('../game/helper');
 
 const router = new Router();
 
-router.get('/new', (req, res, next) => {
+router.post('/new', (req, res, next) => {
   let accountId, game;
 
   authenticatedAccount({ sessionString: req.cookies.sessionString })
     .then(({ account }) => {
       accountId = account.id;
 
-      game = new Game({ ownerId: accountId });
+      const { nickname, admissionEndDate, gameEndDate, isPublic, buyValue } = req.body;
+
+      game = new Game({ ownerId: accountId, nickname, admissionEndDate, gameEndDate, isPublic, buyValue });
 
       return GameTable.storeGame(game);
     })
@@ -43,9 +45,9 @@ router.put('/update', (req, res, next) => {
         throw new Error("You don't own this game.");
       }
 
-      const { gameId, nickname, isPublic, buyValue } = req.body;
+      const { gameId, nickname, admissionEndDate, gameEndDate, isPublic, buyValue } = req.body;
 
-      return GameTable.updateGame({ gameId, nickname, isPublic, buyValue });
+      return GameTable.updateGame({ gameId, nickname, admissionEndDate, gameEndDate, isPublic, buyValue });
     })
     .then(() => res.json({ message: 'successfully updated game' }))
     .catch(error => next(error));

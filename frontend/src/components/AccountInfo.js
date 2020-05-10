@@ -12,7 +12,6 @@ class AccountInfo extends Component {
       <div>
         <h3>Account Info</h3>
         <div>Username: {this.props.accountInfo.username}</div>
-        <div>Balance: {this.props.accountInfo.balance}</div>
       </div>
     );
   }

@@ -2,19 +2,23 @@ import React, { Component } from 'react';
 import {Button, Modal} from "react-bootstrap";
 import { BACKEND } from "../config";
 import AccountGameValueRow from "./AccountGameValueRow";
+import DayPickerInput from "react-day-picker/DayPickerInput";
+import {connect} from "react-redux";
+import {fetchAccountGames} from "../actions/accountGames";
 
 class AccountGameRow extends Component {
 
   constructor(props) {
     super(props)
 
+    this.handleAdmissionDayChange = this.handleAdmissionDayChange.bind(this);
     this.deleteGameValue = this.deleteGameValue.bind(this)
   }
 
   state = {
     nickname: this.props.game.nickname,
     isPublic: this.props.game.isPublic,
-    buyValue: this.props.game.buyValue,
+    admissionEndDate: this.props.game.admissionEndDate,
     ownerId: this.props.game.ownerId,
     edit: false,
     showModal: false,
@@ -58,6 +62,10 @@ class AccountGameRow extends Component {
         this.setState({ modalErrorMessage: error.message });
       } );
   };
+
+  handleAdmissionDayChange(day) {
+    this.setState({ admissionEndDate: day.toISOString() });
+  }
 
   updateNickname = event => {
     this.setState({ nickname: event.target.value });
@@ -156,7 +164,7 @@ class AccountGameRow extends Component {
         gameId: this.props.game.id,
         nickname: this.state.nickname,
         isPublic: this.state.isPublic,
-        buyValue: this.state.buyValue,
+        admissionEndDate: this.state.admissionEndDate,
         ownerId: this.state.ownerId
       })
     }).then(response => response.json())
@@ -165,6 +173,7 @@ class AccountGameRow extends Component {
           alert(json.message);
         } else {
           this.toggleEdit();
+          this.props.fetchAccountGames();
         }
       })
       .catch(error => alert(error.message));
@@ -179,6 +188,15 @@ class AccountGameRow extends Component {
   }
 
   render() {
+    const { admissionEndDate } = this.state;
+
+    var dt = new Date (admissionEndDate);
+    var month = dt.getMonth() + 1; //months from 1-12
+    var day = dt.getDate();
+    var year = dt.getFullYear();
+
+    var newdate = year + "-" + month + "-" + day;
+
     return (
       <div>
         <div>
@@ -190,15 +208,15 @@ class AccountGameRow extends Component {
             disabled={!this.state.edit}
           />
         </div>
-        <div>
-          Buy-in: { ' ' }
-          <input
-            type="number"
-            disabled={!this.state.edit}
-            value={this.state.buyValue}
-            onChange={this.updateBuyValue}
-            className="account-game-row-input"
-          />
+        <div className="form-group">
+          <label className="w-100" htmlFor="inputGameAdmissionEndDate">Admission End Date</label>
+          <div>
+            <DayPickerInput
+              inputProps={{disabled: !this.state.edit}}
+              placeholder={newdate}
+              onDayChange={this.handleAdmissionDayChange}
+            />
+          </div>
         </div>
         <div>
           <button className="btn btn-outline-primary" onClick={this.showGameValues}>Show Game Values ></button>
@@ -273,4 +291,7 @@ class AccountGameRow extends Component {
   }
 }
 
-export default AccountGameRow;
+export default connect(
+  ({  }) => ({  }),
+  { fetchAccountGames }
+)(AccountGameRow);

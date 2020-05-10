@@ -278,13 +278,18 @@ router.post('/:id/member/values/add', (req, res, next) => {
         throw new Error("You are not a member of the game.");
       }
 
-      return GameMemberDataTable.getGameMemberDataAt({ gameId, itemId, accountId, positionId });
+      return GameMemberDataTable.getGameMemberDataAt({ gameId, accountId, positionId });
     })
     .then(({ gameMemberData }) => {
 
       if (gameMemberData !== undefined) {
-        throw new Error(`Value exists already at position ${positionId}, must update not create.`);
+        return GameMemberDataTable.deleteGameMemberDataAt({ gameId, accountId, positionId });
       }
+
+      return { gameId, itemId, accountId, positionId };
+
+    })
+    .then(() => {
 
       return GameMemberDataTable.storeGameMemberData({ gameId, itemId, accountId, positionId });
     })
@@ -319,20 +324,26 @@ router.post('/:id/member/values/update', (req, res, next) => {
         throw new Error("You are not a member of the game.");
       }
 
-      return GameMemberDataTable.getGameMemberDataItem({ gameId, accountId, itemId });
+      return GameMemberDataTable.getGameMemberDataAt({ gameId, accountId, positionId });
     })
     .then(({ gameMemberData }) => {
 
-      if (gameMemberData === undefined) {
-        throw new Error(`Value does not exist.`);
+      if (gameMemberData !== undefined) {
+        return GameMemberDataTable.deleteGameMemberDataAt({ gameId, accountId, positionId });
       }
+
+      return { gameId, itemId, accountId, positionId };
+
+    })
+    .then(() => {
 
       return GameMemberDataTable.updateGameMemberData({ gameId, itemId, accountId, positionId });
     })
-    .then(() => {
+    .then(({ gameMemberData }) => {
       return res.json({
-        message: 'successfully updated value for game'
-      })
+        message: 'successfully updated value to game',
+        gameMemberData
+      });
     })
     .catch(error => next(error));
 });

@@ -39,6 +39,25 @@ class PublicGameRow extends Component {
       .catch(error => alert(error.message));
   };
 
+  join = () => {
+    const { id, buyValue } = this.props.game;
+
+    fetch(`${BACKEND.ADDRESS}/game/join`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ gameId: id, buyValue })
+    }).then(response => response.json())
+      .then(json => {
+        alert(json.message);
+
+        if (json.type !== 'error') {
+          history.push('/active-games');
+        }
+      })
+      .catch(error => alert(error.message));
+  };
+
   render() {
     return (
       <div>
@@ -47,14 +66,12 @@ class PublicGameRow extends Component {
         <Link to={ `/public-games/${this.props.game.id}` }>Overview</Link>
         <br />
         <div>
-          <span>Buy-in: {this.props.game.buyValue}</span>
-          <br />
-          <span>Pot: {this.props.game.potValue}</span>
+          <span>Admission End Date: {this.props.game.admissionEndDate}</span>
           <br />
           <span>Game Owner: {this.state.ownerName}</span>
         </div>
         <br />
-        <Button onClick={this.buy}>Buy</Button>{' '}
+        <Button onClick={this.join}>Join</Button>{' '}
         <br />
       </div>
     )

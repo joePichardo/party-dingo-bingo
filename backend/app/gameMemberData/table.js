@@ -86,6 +86,22 @@ class GameMemberDataTable {
     })
   }
 
+  static deleteGameMemberDataAt({ gameId, accountId, positionId }) {
+    return new Promise((resolve, reject) => {
+      pool.query(
+        'DELETE FROM gameMemberData WHERE "gameId" = $1 AND "accountId" = $2 AND "positionId" = $3',
+        [gameId, accountId, positionId],
+        (error, response) => {
+          if (error) {
+            return reject(error);
+          }
+
+          resolve();
+        }
+      )
+    })
+  }
+
   static updateGameMemberData({ gameId, itemId, accountId, positionId }) {
     const settingsMap = { positionId };
 

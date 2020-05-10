@@ -17,9 +17,9 @@ router.post('/new', (req, res, next) => {
     .then(({ account }) => {
       accountId = account.id;
 
-      const { nickname, admissionEndDate, gameEndDate, isPublic, buyValue } = req.body;
+      const { nickname, admissionEndDate, isPublic } = req.body;
 
-      game = new Game({ ownerId: accountId, nickname, admissionEndDate, gameEndDate, isPublic, buyValue });
+      game = new Game({ ownerId: accountId, nickname, admissionEndDate, isPublic });
 
       return GameTable.storeGame(game);
     })
@@ -47,7 +47,7 @@ router.put('/update', (req, res, next) => {
 
       const { gameId, nickname, admissionEndDate, gameEndDate, isPublic, buyValue } = req.body;
 
-      return GameTable.updateGame({ gameId, nickname, admissionEndDate, gameEndDate, isPublic, buyValue });
+      return GameTable.updateGame({ gameId, nickname, admissionEndDate, isPublic });
     })
     .then(() => res.json({ message: 'successfully updated game' }))
     .catch(error => next(error));
@@ -420,6 +420,44 @@ router.post('/buy', (req, res, next) => {
           gameId: gameId,
           value: buyValue
         }),
+        GameMemberTable.storeGameMember({
+          gameId,
+          accountId: buyerId
+        })
+      ])
+    })
+    .then(() => res.json({ message: 'success!' }))
+    .catch(error => next(error));
+});
+
+router.post('/join', (req, res, next) => {
+  const { gameId, buyValue } = req.body;
+  let buyerId;
+
+  GameTable.getGame({ gameId })
+    .then(game => {
+
+      if (!game.isPublic) {
+        throw new Error('Game must be public');
+      }
+
+      return authenticatedAccount({ sessionString: req.cookies.sessionString });
+    })
+    .then(({ account, authenticated }) => {
+      if (!authenticated) {
+        throw new Error('Unauthenticated');
+      }
+
+      buyerId = account.id;
+
+      return GameMemberTable.getGameMember({ gameId, accountId: buyerId });
+    })
+    .then(({ accountId }) => {
+      if (accountId === buyerId) {
+        throw new Error('Cannot join into game again!');
+      }
+
+      return Promise.all([
         GameMemberTable.storeGameMember({
           gameId,
           accountId: buyerId

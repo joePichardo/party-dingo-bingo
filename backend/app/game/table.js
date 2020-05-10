@@ -104,8 +104,8 @@ class GameTable {
     });
   }
 
-  static updateGame({ gameId, nickname, isPublic, buyValue, ownerId }) {
-    const settingsMap = { nickname, isPublic, buyValue, ownerId };
+  static updateGame({ gameId, nickname, isPublic, admissionEndDate, ownerId }) {
+    const settingsMap = { nickname, isPublic, ownerId };
 
     const validQueries = Object.entries(settingsMap).filter(([settingKey, settingValue]) => {
       // console.log('settingKey', settingKey, 'settingValue', settingValue);

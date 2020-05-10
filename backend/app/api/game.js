@@ -84,6 +84,14 @@ router.get('/public-games', (req, res, next) => {
     .catch(error => next(error));
 });
 
+router.get('/public-games/page/:page', (req, res, next) => {
+  const pageNum = req.params.page;
+
+  getPublicGames(pageNum)
+    .then(({ games }) => res.json({ games }))
+    .catch(error => next(error));
+});
+
 router.get('/active-games', (req, res, next) => {
   let accountId;
 

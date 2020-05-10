@@ -1,10 +1,18 @@
 const pool = require('../../databasePool');
 const GameTable = require('./table');
 
-const getPublicGames = () => {
+const getPublicGames = (page) => {
+
+  var offset = 0;
+  var limit = 2;
+  if (page > 1) {
+    offset = (page * limit) - limit;
+  }
+
   return new Promise((resolve, reject) => {
     pool.query(
-      'SELECT id FROM game WHERE "isPublic" = TRUE',
+      'SELECT id FROM game WHERE "isPublic" = TRUE ORDER BY birthdate DESC OFFSET $1 LIMIT $2',
+      [offset, limit],
       (error, response) => {
         if (error) {
           return reject(error);

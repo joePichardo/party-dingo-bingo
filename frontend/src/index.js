@@ -27,7 +27,7 @@ const store = createStore(
   composeEnhancer(applyMiddleware(thunk))
 );
 
-store.dispatch(fetchPublicGames());
+store.dispatch(fetchPublicGames({ page: 0 }));
 store.dispatch(fetchActiveGames());
 
 const AuthRoute = props => {
@@ -50,6 +50,7 @@ store.dispatch(fetchAuthenticated())
             <AuthRoute path='/account-games' component={AccountGames} />
             <AuthRoute exact path='/public-games' component={PublicGames} />
             <AuthRoute exact path='/public-games/:id' component={PublicGameView} />
+            <AuthRoute exact path='/public-games/page/:page' component={PublicGames} />
             <AuthRoute exact path='/active-games' component={ActiveGames} />
             <AuthRoute exact path='/active-games/:id' component={ActiveGameView} />
           </Switch>

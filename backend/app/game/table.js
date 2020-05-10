@@ -2,13 +2,13 @@ const pool = require('../../databasePool');
 
 class GameTable {
   static storeGame(game) {
-    const { birthdate, nickname, isPublic, buyValue, potValue, ownerId } = game;
+    const { birthdate, admissionEndDate, gameEndDate, nickname, isPublic, buyValue, potValue, ownerId } = game;
 
     return new Promise((resolve, reject) => {
       pool.query(
-        `INSERT INTO game(birthdate, nickname, "isPublic", "buyValue", "potValue", "ownerId") 
-        VALUES($1, $2, $3, $4, $5, $6) RETURNING id`,
-        [birthdate, nickname, isPublic, buyValue, potValue, ownerId],
+        `INSERT INTO game(birthdate, "admissionEndDate", "gameEndDate", nickname, "isPublic", "buyValue", "potValue", "ownerId") 
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
+        [birthdate, admissionEndDate, gameEndDate, nickname, isPublic, buyValue, potValue, ownerId],
         (error, response) => {
           if (error) {
             return reject(error);
@@ -23,7 +23,7 @@ class GameTable {
   static getGame({ gameId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `SELECT id, birthdate, nickname, "isPublic", "buyValue", "potValue", "ownerId"
+        `SELECT *
         FROM game
         WHERE game.id = $1`,
         [gameId],
@@ -85,7 +85,7 @@ class GameTable {
   static getOwnerGames({ ownerId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `SELECT id, birthdate, nickname, "isPublic", "buyValue", "potValue"
+        `SELECT *
         FROM game
         WHERE "ownderId" = $1`,
         [ownerId],

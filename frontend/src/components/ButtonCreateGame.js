@@ -13,8 +13,7 @@ class ButtonCreateGame extends Component {
     showModal: false,
     modalErrorMessage: "",
     nickname: "",
-    isPublic: false,
-    buyValue: 0
+    isPublic: false
   };
 
   constructor(props) {
@@ -22,8 +21,7 @@ class ButtonCreateGame extends Component {
     this.handleAdmissionDayChange = this.handleAdmissionDayChange.bind(this);
     this.handleGameEndDayChange = this.handleGameEndDayChange.bind(this);
     this.state = {
-      admissionEndDate: undefined,
-      gameEndDate: undefined
+      admissionEndDate: undefined
     };
   }
 
@@ -67,9 +65,7 @@ class ButtonCreateGame extends Component {
       body: JSON.stringify({
         nickname: this.state.nickname,
         admissionEndDate: this.state.admissionEndDate,
-        gameEndDate: this.state.gameEndDate,
         isPublic: this.state.isPublic,
-        buyValue: this.state.buyValue
       })
     }).then(response => response.json())
       .then(json => {
@@ -111,21 +107,9 @@ class ButtonCreateGame extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="inputGameBuyIn">Buy-in</label>
-              <input onChange={this.updateBuyValue} type="number" className="form-control" id="inputGameBuyIn" />
-            </div>
-
-            <div className="form-group">
               <label className="w-100" htmlFor="inputGameAdmissionEndDate">Admission End Date</label>
               <div>
                 <DayPickerInput onDayChange={this.handleAdmissionDayChange} />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label className="w-100" htmlFor="inputGameAdmissionEndDate">Game End Date</label>
-              <div>
-                <DayPickerInput onDayChange={this.handleGameEndDayChange} />
               </div>
             </div>
 

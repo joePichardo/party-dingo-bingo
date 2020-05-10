@@ -28,9 +28,7 @@ class ActiveGameRow extends Component {
         <Link to={ `/active-games/${this.props.game.id}` }>Overview</Link>
         <br />
         <div>
-          <span>Buy-in: {this.props.game.buyValue}</span>
-          <br />
-          <span>Pot: {this.props.game.potValue}</span>
+          <span>Admission End Date: {this.props.game.admissionEndDate}</span>
           <br />
           <span>Game Owner: {this.state.ownerName}</span>
         </div>

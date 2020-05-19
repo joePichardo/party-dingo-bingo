@@ -21,6 +21,8 @@
 
 ## On lightsail server production
 
+Root folder `/opt/bitnami/apps/firstapp`
+
 This is to change port 80 (http) to something else - changed to port 8080 so we can run app on port 80
 > vim /opt/bitnami/apache2/conf/httpd.conf
 

@@ -321,11 +321,15 @@ router.post('/:id/member/values/add', (req, res, next) => {
     })
     .then(({ gameMemberData }) => {
 
-      if (gameMemberData === undefined) {
-        throw new Error(`Value does not exist at position ${positionId}.`);
+      if (gameMemberData !== undefined) {
+        return GameMemberDataTable.deleteGameMemberDataAt({ gameId, accountId, positionId });
       }
 
-      return GameMemberDataTable.deleteGameMemberData({ gameId, itemId, accountId, positionId });
+      return { gameId, itemId, accountId, positionId };
+
+    })
+    .then(() => {
+      return GameMemberDataTable.storeGameMemberData({ gameId, itemId, accountId, positionId });
     })
     .then(({ gameMemberData }) => {
       return res.json({

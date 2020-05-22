@@ -82,3 +82,5 @@ app.use(cors({ origin: 'http://web.address.here', credentials: true }));
 - Make sure you deploy `.sql` queries on database, using `pgAdmin`
 
 - Use `npm run start` on root to start server
+
+- For local database, run `psql -U node_user dragonstackdb` to login

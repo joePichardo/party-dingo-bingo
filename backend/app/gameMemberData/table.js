@@ -23,8 +23,9 @@ class GameMemberDataTable {
         `SELECT gv."gameId", gv."itemId", gv."textValue", gmd."positionId"
         FROM gameMemberData AS gmd
         INNER JOIN gameValue AS gv 
-        ON gmd."itemId" = gv."itemId"
-        WHERE gmd."gameId" = $1
+        ON gmd."itemId" = gv."itemId" 
+        AND gmd."gameId" = gv."gameId"
+        WHERE gv."gameId" = $1
         AND gmd."accountId" = $2`,
         [gameId, accountId],
         (error, response) => {

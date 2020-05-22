@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import { BACKEND } from "../config";
 import history from "../history";
 import {Link} from "react-router-dom";
+import moment from 'moment';
 
 class ActiveGameRow extends Component {
 
@@ -21,6 +22,8 @@ class ActiveGameRow extends Component {
   }
 
   render() {
+    const admissionEndDate = this.props.game.admissionEndDate.toString();
+    const formattedDate = moment(admissionEndDate).format('MM/DD/YYYY');
     return (
       <div>
         <div>{this.props.game.nickname}</div>
@@ -28,7 +31,7 @@ class ActiveGameRow extends Component {
         <Link to={ `/active-games/${this.props.game.id}` }>Overview</Link>
         <br />
         <div>
-          <span>Admission End Date: {this.props.game.admissionEndDate}</span>
+          <span>Admission End Date: {formattedDate}</span>
           <br />
           <span>Game Owner: {this.state.ownerName}</span>
         </div>

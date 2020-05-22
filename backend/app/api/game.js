@@ -146,6 +146,13 @@ router.post('/:id/values/add', (req, res, next) => {
         throw new Error("You don't own this game.");
       }
 
+      var nowDate = new Date();
+      var gameAdmissionEndDate = new Date(game.admissionEndDate);
+
+      if (nowDate > gameAdmissionEndDate) {
+        throw new Error("Game admission date has passed.");
+      }
+
       const { gameId, itemId } = req.body;
 
       return GameValueTable.getGameValue({ gameId, itemId });
@@ -188,6 +195,13 @@ router.post('/:id/values/update', (req, res, next) => {
         throw new Error("You don't own this game.");
       }
 
+      var nowDate = new Date();
+      var gameAdmissionEndDate = new Date(game.admissionEndDate);
+
+      if (nowDate > gameAdmissionEndDate) {
+        throw new Error("Game admission date has passed.");
+      }
+
       const { gameId, itemId } = req.body;
 
       return GameValueTable.getGameValue({ gameId, itemId });
@@ -225,6 +239,13 @@ router.post('/:id/values/delete', (req, res, next) => {
 
       if (accountId !== game.ownerId) {
         throw new Error("You don't own this game.");
+      }
+
+      var nowDate = new Date();
+      var gameAdmissionEndDate = new Date(game.admissionEndDate);
+
+      if (nowDate > gameAdmissionEndDate) {
+        throw new Error("Game admission date has passed.");
       }
 
       const { gameId, itemId } = req.body;
@@ -286,20 +307,25 @@ router.post('/:id/member/values/add', (req, res, next) => {
         throw new Error("You are not a member of the game.");
       }
 
-      return GameMemberDataTable.getGameMemberDataAt({ gameId, accountId, positionId });
+      return GameTable.getGame({ gameId  });
+    })
+    .then(game => {
+
+      var nowDate = new Date();
+      var gameAdmissionEndDate = new Date(game.admissionEndDate);
+      if (nowDate > gameAdmissionEndDate) {
+        throw new Error("Game admission date has passed.");
+      }
+
+      return GameMemberDataTable.getGameMemberDataAt({ gameId, itemId, accountId, positionId });
     })
     .then(({ gameMemberData }) => {
 
-      if (gameMemberData !== undefined) {
-        return GameMemberDataTable.deleteGameMemberDataAt({ gameId, accountId, positionId });
+      if (gameMemberData === undefined) {
+        throw new Error(`Value does not exist at position ${positionId}.`);
       }
 
-      return { gameId, itemId, accountId, positionId };
-
-    })
-    .then(() => {
-
-      return GameMemberDataTable.storeGameMemberData({ gameId, itemId, accountId, positionId });
+      return GameMemberDataTable.deleteGameMemberData({ gameId, itemId, accountId, positionId });
     })
     .then(({ gameMemberData }) => {
       return res.json({
@@ -332,7 +358,17 @@ router.post('/:id/member/values/update', (req, res, next) => {
         throw new Error("You are not a member of the game.");
       }
 
-      return GameMemberDataTable.getGameMemberDataAt({ gameId, accountId, positionId });
+      return GameTable.getGame({ gameId  });
+    })
+    .then(game => {
+
+      var nowDate = new Date();
+      var gameAdmissionEndDate = new Date(game.admissionEndDate);
+      if (nowDate > gameAdmissionEndDate) {
+        throw new Error("Game admission date has passed.");
+      }
+
+      return GameMemberDataTable.getGameMemberDataAt({ gameId, itemId, accountId, positionId });
     })
     .then(({ gameMemberData }) => {
 
@@ -378,6 +414,16 @@ router.post('/:id/member/values/delete', (req, res, next) => {
         throw new Error("You are not a member of the game.");
       }
 
+      return GameTable.getGame({ gameId  });
+    })
+    .then(game => {
+
+      var nowDate = new Date();
+      var gameAdmissionEndDate = new Date(game.admissionEndDate);
+      if (nowDate > gameAdmissionEndDate) {
+        throw new Error("Game admission date has passed.");
+      }
+
       return GameMemberDataTable.getGameMemberDataAt({ gameId, itemId, accountId, positionId });
     })
     .then(({ gameMemberData }) => {
@@ -408,6 +454,12 @@ router.post('/buy', (req, res, next) => {
 
       if (!game.isPublic) {
         throw new Error('Game must be public');
+      }
+
+      var nowDate = new Date();
+      var gameAdmissionEndDate = new Date(game.admissionEndDate);
+      if (nowDate > gameAdmissionEndDate) {
+        throw new Error("Game admission date has passed.");
       }
 
       return authenticatedAccount({ sessionString: req.cookies.sessionString });
@@ -458,6 +510,12 @@ router.post('/join', (req, res, next) => {
 
       if (!game.isPublic) {
         throw new Error('Game must be public');
+      }
+
+      var nowDate = new Date();
+      var gameAdmissionEndDate = new Date(game.admissionEndDate);
+      if (nowDate > gameAdmissionEndDate) {
+        throw new Error("Game admission date has passed.");
       }
 
       return authenticatedAccount({ sessionString: req.cookies.sessionString });

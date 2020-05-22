@@ -45,6 +45,7 @@ class BingoBoard extends Component {
 
   showGameValues = (positionId) => {
     this.updatePositionId(positionId);
+    this.setState({ modalErrorMessage: "" });
 
     fetch(`${BACKEND.ADDRESS}/game/${this.props.gameId}/values`, {
       method: 'GET',

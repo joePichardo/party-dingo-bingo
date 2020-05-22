@@ -64,11 +64,6 @@ class BingoBoard extends Component {
     var valueExists = this.findGameValue(gameValue.textValue);
 
     if (valueExists) {
-      this.setState(prevState => {
-        let gameSquares = Object.assign({}, prevState.gameSquares);
-        gameSquares[valueExists] = "";
-        return { gameSquares };
-      });
       fetch(`${BACKEND.ADDRESS}/game/${this.props.gameId}/member/values/update`, {
         method: 'POST',
         credentials: 'include',
@@ -83,6 +78,11 @@ class BingoBoard extends Component {
           if (json.type === 'error') {
             this.setState({ modalErrorMessage: json.message });
           } else {
+            this.setState(prevState => {
+              let gameSquares = Object.assign({}, prevState.gameSquares);
+              gameSquares[valueExists] = "";
+              return { gameSquares };
+            });
             this.setState(prevState => {
               let gameSquares = Object.assign({}, prevState.gameSquares);
               gameSquares[this.state.chosenPositionId] = gameValue.textValue;
@@ -107,6 +107,11 @@ class BingoBoard extends Component {
           if (json.type === 'error') {
             this.setState({ modalErrorMessage: json.message });
           } else {
+            this.setState(prevState => {
+              let gameSquares = Object.assign({}, prevState.gameSquares);
+              gameSquares[valueExists] = "";
+              return { gameSquares };
+            });
             this.setState(prevState => {
               let gameSquares = Object.assign({}, prevState.gameSquares);
               gameSquares[this.state.chosenPositionId] = gameValue.textValue;

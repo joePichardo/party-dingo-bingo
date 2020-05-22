@@ -41,7 +41,7 @@ import fetchStates from "../reducers/fetchStates";
        <div className="container">
          <div className="row">
            <div className="col-12">
-             <h2>Dingo Bingo</h2>
+             <h2>Party Dingo Bingo</h2>
              <FormGroup>
                <FormControl
                  type='text'

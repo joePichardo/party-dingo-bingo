@@ -15,11 +15,12 @@ class BingoSquare extends Component {
     return(
       <div
         style={{
-          color: 'black',
+          color: this.props.rating ? "white" : "black",
           border: '1px solid black',
           width: '200px',
           height: '200px',
-          overflow: 'scroll'
+          overflow: 'scroll',
+          backgroundColor: this.props.rating ? "green" : ""
         }}
         className="bingo-square d-flex justify-content-center p-2"
         onClick={() => this.props.showGameValues(this.props.positionId)}

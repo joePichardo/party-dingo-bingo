@@ -13,6 +13,9 @@ class BingoBoard extends Component {
     gameSquares: {
       1: "", 2: "", 3: "", 4: "", 5: "", 6: "", 7: "", 8: "", 9: "", 10: "", 11: "", 12: "", 13: "", 14: "", 15: "", 16: "", 17: "", 18: "", 19: "", 20: "", 21: "", 22: "", 23: "", 24: "", 25: ""
     },
+    gameSquareRatings: {
+      1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false, 8: false, 9: false, 10: false, 11: false, 12: false, 13: false, 14: false, 15: false, 16: false, 17: false, 18: false, 19: false, 20: false, 21: false, 22: false, 23: false, 24: false, 25: false
+    },
     showModal: false,
     modalErrorMessage: "",
     chosenPositionId: 1
@@ -30,7 +33,10 @@ class BingoBoard extends Component {
           this.setState(prevState => {
             let gameSquares = Object.assign({}, prevState.gameSquares);
             gameSquares[gameMemberData[i].positionId] = gameMemberData[i].textValue;
-            return { gameSquares };
+
+            let gameSquareRatings = Object.assign({}, prevState.gameSquareRatings);
+            gameSquareRatings[gameMemberData[i].positionId] = gameMemberData[i].rating;
+            return { gameSquares, gameSquareRatings };
           });
         }
 
@@ -82,12 +88,20 @@ class BingoBoard extends Component {
             this.setState(prevState => {
               let gameSquares = Object.assign({}, prevState.gameSquares);
               gameSquares[valueExists] = "";
-              return { gameSquares };
+
+              let gameSquareRatings = Object.assign({}, prevState.gameSquareRatings);
+              gameSquareRatings[valueExists] = false;
+
+              return { gameSquares, gameSquareRatings };
             });
             this.setState(prevState => {
               let gameSquares = Object.assign({}, prevState.gameSquares);
               gameSquares[this.state.chosenPositionId] = gameValue.textValue;
-              return { gameSquares };
+
+              let gameSquareRatings = Object.assign({}, prevState.gameSquareRatings);
+              gameSquareRatings[this.state.chosenPositionId] = gameValue.rating;
+
+              return { gameSquares, gameSquareRatings };
             });
             this.setState({ showModal: false });
           }
@@ -111,12 +125,20 @@ class BingoBoard extends Component {
             this.setState(prevState => {
               let gameSquares = Object.assign({}, prevState.gameSquares);
               gameSquares[valueExists] = "";
-              return { gameSquares };
+
+              let gameSquareRatings = Object.assign({}, prevState.gameSquareRatings);
+              gameSquareRatings[valueExists] = false;
+
+              return { gameSquares, gameSquareRatings };
             });
             this.setState(prevState => {
               let gameSquares = Object.assign({}, prevState.gameSquares);
               gameSquares[this.state.chosenPositionId] = gameValue.textValue;
-              return { gameSquares };
+
+              let gameSquareRatings = Object.assign({}, prevState.gameSquareRatings);
+              gameSquareRatings[this.state.chosenPositionId] = gameValue.rating;
+
+              return { gameSquares, gameSquareRatings };
             });
             this.setState({ showModal: false });
           }
@@ -162,7 +184,7 @@ class BingoBoard extends Component {
           {
             Object.entries(this.state.gameSquares).map((name, key) => {
               return (
-                <BingoSquare key={name[0]} positionId={name[0]} showGameValues={this.showGameValues}>
+                <BingoSquare key={name[0]} positionId={name[0]} showGameValues={this.showGameValues} rating={this.state.gameSquareRatings[name[0]]}>
                   <div>{name[1]}</div>
                 </BingoSquare>
               )

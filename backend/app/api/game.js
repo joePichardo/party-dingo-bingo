@@ -208,13 +208,13 @@ router.post('/:id/values/update', (req, res, next) => {
     })
     .then(({ gameValue }) => {
 
-      const { gameId, itemId, textValue } = req.body;
+      const { gameId, itemId, textValue, rating } = req.body;
 
       if (gameValue === undefined) {
         throw new Error(`No value exists at position ${itemId} to update.`);
       }
 
-      return GameValueTable.updateGameValue({ gameId, itemId, textValue });
+      return GameValueTable.updateGameValue({ gameId, itemId, textValue, rating });
     })
     .then(() => {
       return res.json({

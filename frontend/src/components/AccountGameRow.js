@@ -24,7 +24,8 @@ class AccountGameRow extends Component {
     showModal: false,
     gameValues: [],
     tempValue: "",
-    modalErrorMessage: ""
+    modalErrorMessage: "",
+    editMarks: false
   };
 
   deleteGameValue(gameId, itemId) {
@@ -88,6 +89,7 @@ class AccountGameRow extends Component {
   };
 
   closeModal = () => {
+    this.setState({ editMarks: false });
     this.setState({ showModal: false });
   }
 
@@ -155,6 +157,11 @@ class AccountGameRow extends Component {
       .catch(error => alert(error.message));
   };
 
+  markGameValues = () => {
+    this.setState({ editMarks: true });
+    this.showGameValues();
+  }
+
   updateGame = () => {
     fetch(`${BACKEND.ADDRESS}/game/update`, {
       method: 'PUT',
@@ -219,7 +226,10 @@ class AccountGameRow extends Component {
           </div>
         </div>
         <div>
-          <button className="btn btn-outline-primary" onClick={this.showGameValues}>Show Game Values ></button>
+          <button className="btn btn-outline-primary" onClick={this.showGameValues}>Show and Edit Game Values ></button>
+        </div>
+        <div>
+          <button className="btn btn-outline-primary mt-3 mb-2" onClick={this.markGameValues}>Mark Game Values ></button>
         </div>
         <div>
           Public: { ' ' }
@@ -257,20 +267,24 @@ class AccountGameRow extends Component {
                   value.gameId = this.props.game.id;
                   return (
                     <div key={value.itemId}>
-                      <AccountGameValueRow gameValue={value} deleteGameValue={this.deleteGameValue} />
+                      <AccountGameValueRow gameValue={value} deleteGameValue={this.deleteGameValue} editMarks={this.state.editMarks} />
                     </div>
                   );
                 })
               }
             </div>
-            <div className="input-group mb-3">
-              <input type="text" className="form-control" value={this.state.tempValue} onChange={this.updateTempValue} placeholder="New Game Value" />
-              <div className="input-group-append">
-                <button className="btn btn-primary" type="button" onClick={this.saveTempValue}>
-                  Add
-                </button>
-              </div>
-            </div>
+            {
+              this.state.editMarks ?
+                "" :
+                <div className="input-group mb-3">
+                  <input type="text" className="form-control" value={this.state.tempValue} onChange={this.updateTempValue} placeholder="New Game Value" />
+                  <div className="input-group-append">
+                    <button className="btn btn-primary" type="button" onClick={this.saveTempValue}>
+                      Add
+                    </button>
+                  </div>
+                </div>
+            }
             <div className="text-danger">
               {
                 this.state.modalErrorMessage ? <p className="mb-2">{this.state.modalErrorMessage}</p> : <p className="mb-0"></p>

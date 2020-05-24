@@ -58,7 +58,7 @@ class GameValueTable {
   static getGameValues({ gameId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `SELECT "itemId", "textValue"
+        `SELECT *
         FROM gameValue
         WHERE "gameId" = $1
         ORDER BY "itemId" ASC`,
@@ -74,8 +74,9 @@ class GameValueTable {
     });
   }
 
-  static updateGameValue({ gameId, itemId, textValue }) {
-    const settingsMap = { textValue };
+  static updateGameValue({ gameId, itemId, textValue, rating }) {
+
+    const settingsMap = { textValue, rating };
 
     const validQueries = Object.entries(settingsMap).filter(([settingKey, settingValue]) => {
       // console.log('settingKey', settingKey, 'settingValue', settingValue);

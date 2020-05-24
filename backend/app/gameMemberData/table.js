@@ -20,7 +20,7 @@ class GameMemberDataTable {
   static getGameMemberData({ gameId, accountId }) {
     return new Promise((resolve, reject) => {
       pool.query(
-        `SELECT gv."gameId", gv."itemId", gv."textValue", gmd."positionId"
+        `SELECT gv."gameId", gv."itemId", gv."textValue", gv.rating, gmd."positionId"
         FROM gameMemberData AS gmd
         INNER JOIN gameValue AS gv 
         ON gmd."itemId" = gv."itemId" 

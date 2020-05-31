@@ -29,15 +29,17 @@ class BingoBoard extends Component {
       headers: { 'Content-Type': 'application/json' }
     }).then(response => response.json())
       .then(({ gameMemberData }) => {
-        for (var i = 0; i < gameMemberData.length; i++) {
-          this.setState(prevState => {
-            let gameSquares = Object.assign({}, prevState.gameSquares);
-            gameSquares[gameMemberData[i].positionId] = gameMemberData[i].textValue;
+        if (gameMemberData) {
+          for (var i = 0; i < gameMemberData.length; i++) {
+            this.setState(prevState => {
+              let gameSquares = Object.assign({}, prevState.gameSquares);
+              gameSquares[gameMemberData[i].positionId] = gameMemberData[i].textValue;
 
-            let gameSquareRatings = Object.assign({}, prevState.gameSquareRatings);
-            gameSquareRatings[gameMemberData[i].positionId] = gameMemberData[i].rating;
-            return { gameSquares, gameSquareRatings };
-          });
+              let gameSquareRatings = Object.assign({}, prevState.gameSquareRatings);
+              gameSquareRatings[gameMemberData[i].positionId] = gameMemberData[i].rating;
+              return { gameSquares, gameSquareRatings };
+            });
+          }
         }
 
       })

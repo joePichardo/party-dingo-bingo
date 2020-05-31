@@ -11,7 +11,8 @@ class ActiveGameView extends Component {
 
   state = {
     gameMembers: [],
-    gameValues: []
+    gameValues: [],
+    game: ""
   };
 
   constructor(props){
@@ -36,11 +37,24 @@ class ActiveGameView extends Component {
 
     fetch(`${BACKEND.ADDRESS}/game/${this.props.match.params.id}/values`, {
       method: 'GET',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     }).then(response => response.json())
       .then(({ gameValues }) => {
         if (gameValues !== undefined) {
           this.setState({ gameValues: gameValues });
+        }
+      })
+      .catch(error => alert(error.message));
+
+    fetch(`${BACKEND.ADDRESS}/game/${this.props.match.params.id}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    }).then(response => response.json())
+      .then(({ game }) => {
+        if (game !== undefined) {
+          this.setState({ game });
         }
       })
       .catch(error => alert(error.message));
@@ -53,8 +67,10 @@ class ActiveGameView extends Component {
           <div className="col-12 mb-5">
             <Link to='/active-games' className="btn btn-primary">Active Games</Link>
           </div>
+          <div className="col-12 py-5">
+            <h1>{this.state.game.nickname}</h1>
+          </div>
           <div className="col-12">
-
             <Tabs defaultActiveKey="board" transition={false} id="noanim-tab-example">
               <Tab eventKey="board" title="Board">
                 <ul className="list-group">

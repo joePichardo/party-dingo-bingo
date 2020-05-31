@@ -549,5 +549,20 @@ router.post('/join', (req, res, next) => {
     .catch(error => next(error));
 });
 
+router.get('/:id', (req, res, next) => {
+  const gameId = req.params.id;
+
+  authenticatedAccount({ sessionString: req.cookies.sessionString })
+    .then(({ account, authenticated }) => {
+      if (!authenticated) {
+        throw new Error('Unauthenticated');
+      }
+
+      return GameTable.getGame({ gameId });
+    })
+    .then(game => res.json({ message: 'success', game: game }))
+    .catch(error => next(error));
+});
+
 
 module.exports = router;
